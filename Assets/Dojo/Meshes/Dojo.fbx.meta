@@ -1,0 +1,168 @@
+fileFormatVersion: 2
+guid: df473d27fd494445f8f38e14b9b41973
+timeCreated: 1465391695
+licenseType: Store
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Balks1
+    100002: Celling
+    100004: Central_Wall
+    100006: Collumns
+    100008: Dishes
+    100010: //RootNode
+    100012: Floor
+    100014: Horiz_Balks
+    100016: Horiz_Balks_1
+    100018: Horiz_Columns
+    100020: Horiz_Small_Collumns
+    100022: Saber
+    100024: Saber1
+    100026: Sabers
+    100028: Sabers1
+    100030: Stand
+    100032: Stand_1
+    100034: Stand_3
+    100036: Stand_4
+    100038: Walls
+    400000: Balks1
+    400002: Celling
+    400004: Central_Wall
+    400006: Collumns
+    400008: Dishes
+    400010: //RootNode
+    400012: Floor
+    400014: Horiz_Balks
+    400016: Horiz_Balks_1
+    400018: Horiz_Columns
+    400020: Horiz_Small_Collumns
+    400022: Saber
+    400024: Saber1
+    400026: Sabers
+    400028: Sabers1
+    400030: Stand
+    400032: Stand_1
+    400034: Stand_3
+    400036: Stand_4
+    400038: Walls
+    2300000: Balks1
+    2300002: Celling
+    2300004: Central_Wall
+    2300006: Collumns
+    2300008: Dishes
+    2300010: Floor
+    2300012: Horiz_Balks
+    2300014: Horiz_Balks_1
+    2300016: Horiz_Columns
+    2300018: Horiz_Small_Collumns
+    2300020: Saber
+    2300022: Saber1
+    2300024: Sabers
+    2300026: Sabers1
+    2300028: Stand
+    2300030: Stand_1
+    2300032: Stand_3
+    2300034: Stand_4
+    2300036: Walls
+    3300000: Balks1
+    3300002: Celling
+    3300004: Central_Wall
+    3300006: Collumns
+    3300008: Dishes
+    3300010: Floor
+    3300012: Horiz_Balks
+    3300014: Horiz_Balks_1
+    3300016: Horiz_Columns
+    3300018: Horiz_Small_Collumns
+    3300020: Saber
+    3300022: Saber1
+    3300024: Sabers
+    3300026: Sabers1
+    3300028: Stand
+    3300030: Stand_1
+    3300032: Stand_3
+    3300034: Stand_4
+    3300036: Walls
+    4300000: Saber
+    4300002: Saber1
+    4300004: Stand_1
+    4300006: Sabers1
+    4300008: Sabers
+    4300010: Stand_3
+    4300012: Stand
+    4300014: Stand_4
+    4300016: Dishes
+    4300018: Central_Wall
+    4300020: Celling
+    4300022: Floor
+    4300024: Horiz_Balks_1
+    4300026: Horiz_Small_Collumns
+    4300028: Horiz_Columns
+    4300030: Horiz_Balks
+    4300032: Walls
+    4300034: Balks1
+    4300036: Collumns
+  materials:
+    importMaterials: 1
+    materialName: 1
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
