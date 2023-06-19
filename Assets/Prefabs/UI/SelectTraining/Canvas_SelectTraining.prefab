@@ -1199,6 +1199,22 @@ PrefabInstance:
       propertyPath: m_PreferredHeight
       value: 60
       objectReference: {fileID: 0}
+    - target: {fileID: 8129011850402749557, guid: 9a37ca4126cfa9340b8b5291a5da2139, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8129011850402749557, guid: 9a37ca4126cfa9340b8b5291a5da2139, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8129011850402749557, guid: 9a37ca4126cfa9340b8b5291a5da2139, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 11500000, guid: 2a1a898ce97e5b64c82c677d9c41f8a6, type: 3}
+    - target: {fileID: 8129011850402749557, guid: 9a37ca4126cfa9340b8b5291a5da2139, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8129011850402749558, guid: 9a37ca4126cfa9340b8b5291a5da2139, type: 3}
       propertyPath: m_Name
       value: Button_SelectTraining
