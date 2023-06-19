@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour {
 
+    [Header("Name of the Training-Scene")]
     public string trainingSceneName = "Training";
 
 
@@ -18,6 +19,7 @@ public class SceneLoader : MonoBehaviour {
     public void loadScene() {
         SceneManager.LoadScene(trainingSceneName);
     }
+
 
     public void SetDifficultyEasy()   => mainManager.selectedDifficulty = MainManager.difficulty.easy;
     public void SetDifficultyMedium() => mainManager.selectedDifficulty = MainManager.difficulty.medium;
