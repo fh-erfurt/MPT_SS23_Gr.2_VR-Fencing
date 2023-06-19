@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class MainManager : MonoBehaviour {
 
-    [SerializeField]
+    // enums
     public enum difficulty { easy, medium, hard };
 
     public enum trainingType { training_1, training_2, training_3 };
@@ -11,6 +11,7 @@ public class MainManager : MonoBehaviour {
 
     public difficulty selectedDifficulty { get; set; } = difficulty.easy;
     public trainingType selectedTraining { get; set; } = trainingType.training_1;
+
 
     public static MainManager instance;
 
