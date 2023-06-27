@@ -4420,7 +4420,7 @@ MonoBehaviour:
   LicenseName: 
   LicenseKey: 
   LicenseFilePath: 
-  GestureDatabaseFile: GestureRecognition/Samples/Sample_OneHanded_Gestures.dat
+  GestureDatabaseFile: Gestures/Sample_OneHanded_MyGestures.dat
   unityXrPlugin: 1
   mivryCoordinateSystem: 1
   LeftHand: {fileID: 2064038567}
