@@ -15,6 +15,9 @@ ModelImporter:
   - first:
       74: -8945691123924629249
     second: Armature|Idle
+  - first:
+      74: -2106472897782759856
+    second: Idle (1)
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -45,11 +48,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Armature|mixamo.com|Layer0
-      takeName: Armature|mixamo.com|Layer0
+      name: Idle (1)
+      takeName: Idle
       internalID: 0
-      firstFrame: 59
-      lastFrame: 59
+      firstFrame: 0
+      lastFrame: 158
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
