@@ -18,6 +18,12 @@ ModelImporter:
   - first:
       74: -2106472897782759856
     second: Idle (1)
+  - first:
+      74: 8429187528662976687
+    second: Armature|hau links
+  - first:
+      74: 1816363274665729665
+    second: Armature|vers li o
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -48,11 +54,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Idle (1)
-      takeName: Idle
+      name: Armature|vers li o
+      takeName: Armature|vers li o
       internalID: 0
       firstFrame: 0
-      lastFrame: 158
+      lastFrame: 59
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
