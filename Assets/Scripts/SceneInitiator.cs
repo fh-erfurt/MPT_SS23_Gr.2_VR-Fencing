@@ -17,7 +17,9 @@ public class SceneInitiator : MonoBehaviour {
     string trainingScoreDefault = "00000";
     string trainingTimeDefault = "15:00";
 
+
     private MainManager mainManager;
+
 
     private void Start() {
         mainManager = MainManager.instance;
