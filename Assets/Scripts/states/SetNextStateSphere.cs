@@ -1,17 +1,13 @@
 using UnityEngine;
 
 
-public class SwitchTrainerPosition : MonoBehaviour {
+public class SetNextStateSphere : Subject {
 
-    [Header("Trainer-Model in Scene")]
-    public Transform trainer;
-
-    [Header("Position")]
-    public float rotationYOffset = 0f;  // Main: y = 180
-    private Transform trainerPosition;  // automatically assign parent at start
+    [Header("Next Step on Activation")]
+    [SerializeField] TrainingStateManager.nextStep nextStepOnActivation;
 
     [Header("Selection Sphere Timer")]
-    public float requiredTimeInSphere = 1.5f;  // time the pointer has to stay in the sphere for an action to happen
+    public float requiredTimeInSphere = 1f;  // time the pointer has to stay in the sphere for an action to happen
     private float pointerInSphereTimer = 0f;
     private Transform selectionTimerSphere;  // automatically assign first child at start
     private float selectionTimerSphereScale = 0f;
@@ -27,25 +23,13 @@ public class SwitchTrainerPosition : MonoBehaviour {
 
     private Material meshMaterial;
 
-    private bool positionWasSwitched = false;
-
 
 
     private void Start() {
-        trainerPosition = transform.parent;
-
         selectionTimerSphere = transform.GetChild(0);
 
         meshMaterial = gameObject.GetComponent<Renderer>().material;
         SetDefaultColor();
-    }
-
-
-    // set trainer to the postition of the parent object of the sphere
-    public void SetTrainerToPosition() {
-        // only move trainer on x/z-plane
-        trainer.position = new Vector3(trainerPosition.position.x, trainer.position.y, trainerPosition.position.z);
-        trainer.rotation = Quaternion.Euler(0, rotationYOffset, 0);
     }
 
 
@@ -58,25 +42,19 @@ public class SwitchTrainerPosition : MonoBehaviour {
 
     private void OnTriggerExit() {
         ResetTimer();
-        positionWasSwitched = false;
         SetDefaultColor();
     }
 
 
     private void OnTriggerStay() {
 
-        if (positionWasSwitched == true) {
-                return;
-        }
-
         pointerInSphereTimer += Time.deltaTime;
 
         IncreaseSelectionTimerSphereScale();
 
-        // if sword is held long enough in the sphere -> move trainer to that position
+        // if sword is held long enough in the sphere -> trigger next step
         if (pointerInSphereTimer >= requiredTimeInSphere) {
-            SetTrainerToPosition();
-            positionWasSwitched = true;
+            NotifyObservers(nextStepOnActivation);
             ResetTimer();
         }
     }
@@ -99,13 +77,13 @@ public class SwitchTrainerPosition : MonoBehaviour {
     //
     // Colors
     private void SetDefaultColor() {
-        meshMaterial.SetColor("_BaseColor", defaultColor);
-        meshMaterial.SetColor("_EmissionColor", defaultEmissionColor * Mathf.LinearToGammaSpace(10f));
+        meshMaterial.SetColor("_Color", defaultColor);
+        meshMaterial.SetColor("_EmissionColor", defaultEmissionColor);
     }
 
 
     private void SetSelectionColor() {
-        meshMaterial.SetColor("_BaseColor", selectionColor);
+        meshMaterial.SetColor("_Color", selectionColor);
         meshMaterial.SetColor("_EmissionColor", selectionEmissionColor * Mathf.LinearToGammaSpace(10f));
     }
 }
