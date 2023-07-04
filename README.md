@@ -9,7 +9,7 @@ Das Projekt "MPT_SS23_Gr.2_VR-Fencing" wird im Rahmen des Angewandte Informatik 
 Diese VR-Anwendung soll dem Nutzer die Möglichkeit bieten, die Grundlagen des Fechtens spielerisch in einer virtuellen Umgebung zu erlernen. Die Grundlagen umfassen hierbei das Blocken sowie Angreifen.
 Trainiert wird mittels eines Fecht-Trainers, welcher gegnen den Nutzer antritt. Die Trainingseinheiten sind  unterteilt in "Blocken", "Angreifen", und "Freier Modus".
 
-<h1>Spielablauf</h1>
+<h2>Spielablauf</h2>
 Zunächst wählt der Nutezr einen Spiel-Modi. Zu Verfügung stehen "Blocken", "Angreifen", und "Freier Modus. Danach geht es in die jeweilige Trainingseinheit.
 
 "Blocken"-Trainingseinheit
