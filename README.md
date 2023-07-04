@@ -10,7 +10,7 @@ Diese VR-Anwendung soll dem Nutzer die Möglichkeit bieten, die Grundlagen des F
 Trainiert wird mittels eines Fecht-Trainers, welcher gegnen den Nutzer antritt. Die Trainingseinheiten sind  unterteilt in "Blocken", "Angreifen", und "Freier Modus".
 
 <h2>Spielablauf</h2>
-Zunächst wählt der Nutezr einen Spiel-Modi. Zu Verfügung stehen "Blocken", "Angreifen", und "Freier Modus. Danach geht es in die jeweilige Trainingseinheit.
+Zunächst wählt der Nutezr einen Spiel-Modi. Zu Verfügung stehen "Blocken", "Angreifen", und "Freier Modus. Danach geht es in die jeweilige Trainingseinheit. <br>
 
 "Blocken"-Trainingseinheit
 In der ersten Phase des Tranings wird der Trainer dem Nutzer zeigen, wie dieser den Degen führen muss, um bestimmte Angriffe abzublocken. Hierfür nimmt der Trainer die Position des Nutzers ein, und zeigt diesem durch seine eigene Schwertfühung, wie der Nutzer die Bewegung richtig ausführt. Hat der Nutzer dies gemeistert, geht es zur zweiten Phase über. 
