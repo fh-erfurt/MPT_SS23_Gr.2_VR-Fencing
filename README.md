@@ -10,7 +10,7 @@ Diese VR-Anwendung soll dem Nutzer die Möglichkeit bieten, die Grundlagen des F
 Trainiert wird mittels eines Fecht-Trainers, welcher gegnen den Nutzer antritt. Die Trainingseinheiten sind  unterteilt in "Blocken", "Angreifen", und "Freier Modus".
 
 <h2>Spielablauf</h2>
-Zunächst wählt der Nutezr einen Spiel-Modi. Zu Verfügung stehen "Blocken", "Angreifen", und "Freier Modus. Danach geht es in die jeweilige Trainingseinheit. 
+Zunächst wählt der Nutezr einen Spiel-Modi. Zu Verfügung stehen "Blocken", "Angreifen", und "Freier Modus". Danach geht es in die jeweilige Trainingseinheit. 
 
 <h5>"Blocken"-Trainingseinheit</h5><br>
 In der ersten Phase des Tranings wird der Trainer dem Nutzer zeigen, wie dieser den Degen führen muss, um bestimmte Angriffe abzublocken. Hierfür nimmt der Trainer die Position des Nutzers ein, und zeigt diesem durch seine eigene Schwertfühung, wie der Nutzer die Bewegung richtig ausführt. Hat der Nutzer dies gemeistert, geht es zur zweiten Phase über. 
@@ -19,5 +19,8 @@ In der zweiten Phase stellt sich der Trainer gegenüber des Nutzers und sagt an,
 <h5>"Angreifen"-Trainingseinheit</h5><br>
 In der ersten Phase des Tranings wird der Trainer dem Nutzer zeigen, wie dieser den Degen führen muss, um bestimmte Angriffe auszuführen. Hierfür nimmt der Trainer die Position des Nutzers ein, und zeigt diesem durch seine eigene Schwertfühung, wie der Nutzer die Bewegung richtig ausführt. Hat der Nutzer dies gemeistert, geht es zur zweiten Phase über. 
 In der zweiten Phase stellt sich der Trainer gegenüber des Nutzers und sagt an, wohin der Nutzer angreifen soll; bswp. "rechts oben". Der Spieler muss daraufhin innerhalb einer festgelegten Geschwindigkeit mit den Degen die entsprechnde Angriffsbewegung ausführen. Hat er dies gut gemeistert, gibt es Pukte für die richtig ausgeführte Bewegung. Ist die Bewegung hingegen nicht zufriednstellend ausgeführt, wird der Trainer erneut in Phase 1 übergehen und dem Nutzer nochmals zeigen, wie die Bewegung richtig ausgeführt wird.
+
+<h5>"Freier Modus"-Trainingseinheit</h5><br>
+Im freien Modus wird alles erlernte vom Spieler gefordert in zufälliger Reihenfolge; sprich Blocken und Angreifen abwechselnd.
 
 
