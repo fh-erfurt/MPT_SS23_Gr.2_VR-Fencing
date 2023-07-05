@@ -18,25 +18,28 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
     public TrainerAudioSO deflectingAudiosSO;
     public TrainerAudioSO endAudiosSO;
 
+    [Header("Manager")]
+    public Animator trainerAnimator;
     private AudioManager audioManager;
 
-    [Header("Skip Instructions Spheres")]
+    [Header("Selection Spheres")]
     public GameObject skipInstructionsSpheres;
-
-    [Header("Next State Spheres")]
     public GameObject nextStateSpheres;
-
-    [Header("Trainer Position Spheres")]
     public GameObject trainerPositionSpheres;
 
 
+    [Header("Sword Hitboxes")]
+
+
     // Observer-pattern
-    [Header("Subject of Observer")]
+    [Header("Sphere Subjects")]
     [SerializeField] Subject _nextStateSphereSubject;
     [SerializeField] Subject _repeatStateSphereSubject;
     [SerializeField] Subject _skipInstructionSphereSubject;
     [SerializeField] Subject _dontSkipInstructionSphereSubject;
-
+    [Header("Sword Subjects")]
+    [SerializeField] Subject _strongSide;
+    [SerializeField] Subject _weakSide;
 
     public enum nextStep { not_set, next_state, repeat_state, skip_instructions };
 
@@ -46,7 +49,7 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
         // Starting state
         currentState = StartState;
         // Context to this script
-        currentState.EnterState(this, nextStateSpheres, trainerPositionSpheres, skipInstructionsSpheres);
+        currentState.EnterState(this, nextStateSpheres, trainerPositionSpheres, skipInstructionsSpheres, trainerAnimator);
 
         // Disable selection spheres
         HideSelectionSpheres();
@@ -75,7 +78,7 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
 
     public void SwitchState(TrainingBaseState newState) {
         currentState = newState;
-        newState.EnterState(this, nextStateSpheres, trainerPositionSpheres, skipInstructionsSpheres);
+        newState.EnterState(this, nextStateSpheres, trainerPositionSpheres, skipInstructionsSpheres, trainerAnimator);
     }
 
 
@@ -119,5 +122,10 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
             SkipInstructions();
             return;
         }
+    }
+
+    // Sword
+    public void OnNotify() {
+        
     }
 }

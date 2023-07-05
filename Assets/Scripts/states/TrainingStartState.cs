@@ -10,11 +10,14 @@ public class TrainingStartState : TrainingBaseState {
     private bool wasAudioPlayed = false;
 
     // Timer
-    private float delayBeforeAudioStarts = 3f;
+    private float delayBeforeAudioStarts = 0f;
     private float currentTimer = 0f;
 
     // Selection spheres
     private GameObject skipInstructionSpheres;
+
+    // Trainer animator
+    private Animator animator;
 
     // Next step
     private TrainingStateManager.nextStep nextStep = TrainingStateManager.nextStep.not_set;
@@ -23,10 +26,12 @@ public class TrainingStartState : TrainingBaseState {
     public override void EnterState(TrainingStateManager training,
                                     GameObject nextStateSpheres,
                                     GameObject trainerPositionSpheres,
-                                    GameObject skipInstructionSpheres) {
+                                    GameObject skipInstructionSpheres,
+                                    Animator trainerAnimator) {
         resetState();
         training.HideSelectionSpheres();
         this.skipInstructionSpheres = skipInstructionSpheres;
+        animator = trainerAnimator;
     }
 
 

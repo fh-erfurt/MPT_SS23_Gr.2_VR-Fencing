@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: EndAudios
   m_EditorClassIdentifier: 
   audioClips:
-  - {fileID: 8300000, guid: 83b73c24450579d458e28fe444e293f1, type: 3}
+  - {fileID: 8300000, guid: ec9fb576c5f467849bfbe8154d23aacb, type: 3}

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-public class TrainingInstructionState : TrainingBaseState {
+public class TrainingInstructionState_copy : TrainingBaseState {
 
     // Audio
     private AudioManager audioManager;
@@ -13,10 +13,12 @@ public class TrainingInstructionState : TrainingBaseState {
     private int currentAudio = 0;
 
     // Animation
-    private string[] animationTriggers = {"Greetings_Idle", "Show_Deflect_R_O", "Show_Deflect_L_O", "Greetings_Idle" };
-    private string[] animationNames    = {"Greetings_Idle", "Verteidigung R o", "Verteidigung L o", "Greetings_Idle" };
+    private string[] animationTriggers = { "Show_Deflect_R_O", "Show_Deflect_L_O" };
+    private string[] animationNames = { "Verteidigung R o", "Verteidigung L o" };
     private int currentAnimation = 0;
     private bool wasAnimationTriggered = false;
+    private bool wasAnimationPlayed = false;
+    private bool idlePlayed = false;
 
     // Selection spheres
     private GameObject nextStateSpheres;
@@ -27,9 +29,6 @@ public class TrainingInstructionState : TrainingBaseState {
 
     // Next step
     private TrainingStateManager.nextStep nextStep = TrainingStateManager.nextStep.not_set;
-
-    // State stuff
-    private bool readyForNextInstruction = true;
 
 
 
@@ -47,49 +46,50 @@ public class TrainingInstructionState : TrainingBaseState {
         trainerPositionSpheres.SetActive(true);
 
         animator = trainerAnimator;
-    }
 
+        // play introduction audio
+        //playAudio();
+    }
 
     // called once per frame from TrainingStateManager
     public override void UpdateState(TrainingStateManager training) {
 
         // when the last audio-clip was played only check for next step
         if (isLastAudioClipPlayed()) {
-            if (!isAudioStillPlaying() && !isAnimationStillPlaying(currentAnimation-1)) {
-                nextStateSpheres.SetActive(true);
-                checkNextState(training);
-            }
+            checkNextState(training);
             return;
         }
 
+        if (!wasAudioPlayed) {
+            // playAudio();
+            // return;
+        }
 
-        if (readyForNextInstruction) {
-            readyForNextInstruction = false;
-            playAudio();
+        if (audioManager.isAudioStillPlaying()) {
+            return;
+        }
+
+        if (!wasAnimationTriggered) {
             triggerAnimation();
-        }
-
-        if (wasAnimationTriggered && animator.GetCurrentAnimatorStateInfo(0).IsName("Idle")) {
             return;
         }
 
-        if(isAnimationStillPlaying(currentAnimation)) {
-            wasAnimationTriggered = false;
+        if (isAnimationStillPlaying()) {
             return;
         }
 
-        if(isAudioStillPlaying()) {
-            return;
-        }
-
-        prepareNextInstruction();
-    }
-
-
-    private void prepareNextInstruction() {
-        currentAnimation++;
+        wasAudioPlayed = false;
+        wasAnimationTriggered = false;
+        // temp
         currentAudio++;
-        readyForNextInstruction = true;
+
+        Debug.Log("End of Update");
+
+        if (isLastAudioClipPlayed()) {
+            nextStateSpheres.SetActive(true);
+            wasAnimationTriggered = true;
+            wasAnimationPlayed = false;
+        }
     }
 
 
@@ -109,54 +109,65 @@ public class TrainingInstructionState : TrainingBaseState {
         numberOfAudioClips = audioClips.Length;
     }
 
-    public override void SetNextStep(TrainingStateManager.nextStep nextStep) {
-        this.nextStep = nextStep;
-    }
-
-
     //
     // Check for next state
     private void checkNextState(TrainingStateManager training) {
-        // continue to training
         if (nextStep == TrainingStateManager.nextStep.next_state) {
             training.SwitchState(training.DeflectState);
             trainerPositionSpheres.transform.Find("Trainer_Position_Main").transform.GetChild(0).GetComponent<SwitchTrainerPosition>().SetTrainerToPosition();
         }
-        // repeat instructions
+
         if (nextStep == TrainingStateManager.nextStep.repeat_state) {
             training.SwitchState(training.InstructionState);
         }
     }
 
-
     //
     // Audio
     private void playAudio() {
-        audioManager.playClipAtTrainerPosition(audioClips[currentAudio]);
+        audioManager.playClipAtTrainerPosition(audioClips[currentAnimation]);
         wasAudioPlayed = true;
+        currentAudio++;
     }
 
-    private bool isAudioStillPlaying() {
-        return audioManager.isAudioStillPlaying();
+    public override void SetNextStep(TrainingStateManager.nextStep nextStep) {
+        this.nextStep = nextStep;
     }
 
     private bool isLastAudioClipPlayed() {
         return currentAudio == numberOfAudioClips;
     }
 
-
     //
     // Animation
     private void triggerAnimation() {
+        Debug.Log("Play Animation");
         animator.SetTrigger(animationTriggers[currentAnimation]);
         wasAnimationTriggered = true;
+        currentAnimation++;
     }
 
-    private bool isAnimationStillPlaying(int currentAnimation) {
-        return animator.GetCurrentAnimatorStateInfo(0).IsName(animationNames[currentAnimation]);
-    }
+    private bool isAnimationStillPlaying() {
+        // if (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle")) {
+        //     if (idlePlayed) return false;
+        //     if(animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f){
+        //         idlePlayed = true;
+        //     }
 
-    private bool isCurrentStateIdle() {
-        return animator.GetCurrentAnimatorStateInfo(0).IsName("Idle");
+        //     return true;
+        // }
+
+        // check if in idle
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle") && !wasAnimationPlayed) {
+            return true;
+        }
+
+        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f && animator.GetCurrentAnimatorStateInfo(0).IsName(animationNames[currentAnimation-1])) { // || animator.IsInTransition(0)) {
+            wasAnimationPlayed = true;
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }

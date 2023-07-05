@@ -7,7 +7,6 @@ public class Points : MonoBehaviour
     private static float points;
     public int startPoints = 0;
 
-    public static int lives;
 
     private void Start()
     {
@@ -27,6 +26,7 @@ public class Points : MonoBehaviour
     public static void AddPoints(float amount)
     {
         points += amount;
+        Debug.Log(points);
     }
 
     public static void SubtractPoints(float amount)

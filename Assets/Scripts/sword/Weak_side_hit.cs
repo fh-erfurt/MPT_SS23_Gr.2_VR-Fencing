@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weak_side_hit : MonoBehaviour
+public class Weak_side_hit : Subject
 {
     private float pointGain;
     public float points = 100;
@@ -20,6 +20,7 @@ public class Weak_side_hit : MonoBehaviour
             print("Weak side got hit!");
             Points.AddPoints(pointGain);
             print("You gained:" + pointGain + " points");
+            NotifyObservers();
         }
     }
 }
