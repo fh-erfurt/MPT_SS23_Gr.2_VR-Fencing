@@ -1,18 +1,7 @@
 using UnityEngine;
 
 
-public class TrainingInstructionState : TrainingBaseState {
-
-    // Animation States
-    private const string IDLE = "Idle";
-    private const string DEFLECT_R = "Deflect_R_TOP";
-    private const string DEFLECT_L = "Deflect_L_TOP";
-
-    // Animation
-    private string[] animationOrder = { IDLE, DEFLECT_R, DEFLECT_L, IDLE };
-    private int currentAnimation = 0;
-    private bool wasAnimationPlayed = false;
-    private string currentAnimationState;
+public class TrainingInstructionState_old_working : TrainingBaseState {
 
     // Audio
     private AudioManager audioManager;
@@ -22,6 +11,12 @@ public class TrainingInstructionState : TrainingBaseState {
 
     private int numberOfAudioClips;
     private int currentAudio = 0;
+
+    // Animation
+    private string[] animationTriggers = {"Greetings_Idle", "Show_Deflect_R_O", "Show_Deflect_L_O", "Greetings_Idle" };
+    private string[] animationNames    = {"Greetings_Idle", "Verteidigung R o", "Verteidigung L o", "Greetings_Idle" };
+    private int currentAnimation = 0;
+    private bool wasAnimationTriggered = false;
 
     // Selection spheres
     private GameObject nextStateSpheres;
@@ -33,6 +28,7 @@ public class TrainingInstructionState : TrainingBaseState {
     // Next step
     private TrainingStateManager.nextStep nextStep = TrainingStateManager.nextStep.not_set;
 
+    // State stuff
     private bool readyForNextInstruction = true;
 
 
@@ -43,23 +39,14 @@ public class TrainingInstructionState : TrainingBaseState {
                                     GameObject trainerPositionSpheres,
                                     GameObject skipInstructionSpheres,
                                     Animator trainerAnimator) {
-
-        if (animationOrder.Length != audioClips.Length) {
-            Debug.LogError("'animationOrder' and 'audioClips' must have an equal amount of elements.");
-        }
-
         resetState();
 
         training.HideSelectionSpheres();
         this.nextStateSpheres = nextStateSpheres;
         this.trainerPositionSpheres = trainerPositionSpheres;
-        // show spheres to change trainer position
         trainerPositionSpheres.SetActive(true);
 
         animator = trainerAnimator;
-
-        // default animation state
-        ChangeAnimationState(IDLE);
     }
 
 
@@ -68,7 +55,6 @@ public class TrainingInstructionState : TrainingBaseState {
 
         // when the last audio-clip was played only check for next step
         if (isLastAudioClipPlayed()) {
-            // wait for audio and animation to finish
             if (!isAudioStillPlaying() && !isAnimationStillPlaying(currentAnimation-1)) {
                 nextStateSpheres.SetActive(true);
                 checkNextState(training);
@@ -76,25 +62,26 @@ public class TrainingInstructionState : TrainingBaseState {
             return;
         }
 
-        // when animation is done play next audio
+
         if (readyForNextInstruction) {
             readyForNextInstruction = false;
             playAudio();
+            triggerAnimation();
         }
 
-        // check if the audio is done playing
-        if (isAudioStillPlaying()) {
-            return;
-        }
-
-        // play animation after audio is finished
-        if (!wasAnimationPlayed) {
-            playAnimation();
+        // check if an animation was triggered that is not the default "idle"-state
+        if (wasAnimationTriggered && animator.GetCurrentAnimatorStateInfo(0).IsName("Idle")) {
             return;
         }
 
         // check if the animation is done playing
-        if (isAnimationStillPlaying(currentAnimation)) {
+        if(isAnimationStillPlaying(currentAnimation)) {
+            wasAnimationTriggered = false;
+            return;
+        }
+
+        // check if the audio is done playing
+        if(isAudioStillPlaying()) {
             return;
         }
 
@@ -102,12 +89,10 @@ public class TrainingInstructionState : TrainingBaseState {
     }
 
 
-
     private void prepareNextInstruction() {
         currentAnimation++;
         currentAudio++;
         readyForNextInstruction = true;
-        wasAnimationPlayed = false;
     }
 
 
@@ -117,7 +102,7 @@ public class TrainingInstructionState : TrainingBaseState {
         currentAudio = 0;
         wasAudioPlayed = false;
         currentAnimation = 0;
-        wasAnimationPlayed = false;
+        wasAnimationTriggered = false;
         nextStep = TrainingStateManager.nextStep.not_set;
     }
 
@@ -165,43 +150,14 @@ public class TrainingInstructionState : TrainingBaseState {
 
     //
     // Animation
-    private void playAnimation() {
-        switch (currentAnimation) {
-            case 1:
-                ChangeAnimationState(DEFLECT_R);
-                break;
-            case 2:
-                ChangeAnimationState(DEFLECT_L);
-                break;
-            default:
-                ChangeAnimationState(IDLE);
-                break;
-        }
-        wasAnimationPlayed = true;
+    private void triggerAnimation() {
+        animator.SetTrigger(animationTriggers[currentAnimation]);
+        wasAnimationTriggered = true;
     }
-
-
-    private void ChangeAnimationState(string newState) {
-        // stop the same animation from interrupting itself
-        if (currentAnimationState == newState) {
-            return;
-        }
-        // play animation
-        animator.Play(newState);
-        // reassign the current state
-        currentAnimationState = newState;
-    }
-
 
     private bool isAnimationStillPlaying(int currentAnimation) {
-
-        if (isCurrentStateIdle() && !animator.IsInTransition(0)) {
-            return false;
-        }
-
-        return !isCurrentStateIdle();
+        return animator.GetCurrentAnimatorStateInfo(0).IsName(animationNames[currentAnimation]);
     }
-
 
     private bool isCurrentStateIdle() {
         return animator.GetCurrentAnimatorStateInfo(0).IsName("Idle");

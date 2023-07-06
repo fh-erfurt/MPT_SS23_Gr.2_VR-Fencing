@@ -337,7 +337,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Base pose
+  m_Name: AnimationController_Trainer_old_working
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: Show_Deflect_R_O

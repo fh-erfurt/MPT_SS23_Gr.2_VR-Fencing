@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-public class TrainingInstructionState_copy : TrainingBaseState {
+public class TrainingInstructionState_old_notWorking : TrainingBaseState {
 
     // Audio
     private AudioManager audioManager;
