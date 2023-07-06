@@ -2819,6 +2819,7 @@ MonoBehaviour:
   _dontSkipInstructionSphereSubject: {fileID: 873111268}
   _strongSide: {fileID: 377592773}
   _weakSide: {fileID: 255636355}
+  trainer: {fileID: 326618071}
 --- !u!1001 &867884359
 PrefabInstance:
   m_ObjectHideFlags: 0

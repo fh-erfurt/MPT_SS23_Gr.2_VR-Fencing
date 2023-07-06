@@ -5,7 +5,7 @@ public class TrainingDeflectState : TrainingBaseState {
 
     // Training schedule
     private string[] trainingPlan = {   //ATTACK_R, ATTACK_R,
-                                        //ATTACK_L, ATTACK_L,
+                                        ATTACK_L, ATTACK_L,
                                         ATTACK_R, ATTACK_L };
     private int trainingPlanIndex = 0;
 
@@ -24,7 +24,6 @@ public class TrainingDeflectState : TrainingBaseState {
     private string[] animationsGeneral = { IDLE };
     private string[] animationsAttack  = { ATTACK_R, ATTACK_L };
     private string[] animationsBlockSuccess = { ATTACK_SUCCESS_R, ATTACK_SUCCESS_L };
-    private int currentAnimation = 0;
     private bool wasAnimationPlayed = false;
     private string currentAnimationState;
 
@@ -36,16 +35,11 @@ public class TrainingDeflectState : TrainingBaseState {
     private AudioClip[] audioClipsCompliment;
     private bool wasAudioPlayed = false;
 
-    private int numberOfAudioClips;
-    private int currentAudio = 0;
-
     // Trainer animator
     private Animator animator;
 
-    // Next step
-    private TrainingStateManager.nextStep nextStep = TrainingStateManager.nextStep.not_set;
-
-    private bool readyForNextInstruction = true;
+    // Sword
+    private bool successfulBlock = false;
 
 
 
@@ -86,7 +80,7 @@ public class TrainingDeflectState : TrainingBaseState {
 
         // Training
         if (currentState == state.training) {
-            executeTrainingPlan();
+            executeTrainingPlan(training);
             return;
         }
 
@@ -98,11 +92,11 @@ public class TrainingDeflectState : TrainingBaseState {
     }
 
 
-    private void executeTrainingPlan() {
+    //
+    // Training Plan
+    private void executeTrainingPlan(TrainingStateManager training) {
 
-        Debug.Log("<color=blue>Execute Training Plan</color>");
-
-        short audioAndAnimationIndex = 0;
+        short audioAndAnimationIndex = -1;
 
         // when last step in traininPlan was reached
         if (trainingPlanIndex == trainingPlan.Length) {
@@ -110,12 +104,14 @@ public class TrainingDeflectState : TrainingBaseState {
             return;
         }
 
-
-        if (trainingPlan[trainingPlanIndex] == ATTACK_R) {
-            audioAndAnimationIndex = 0;
-        }
-        else if (trainingPlan[trainingPlanIndex] == ATTACK_L) {
-            audioAndAnimationIndex = 1;
+        // set index to play the correct audio & animation for the trainer
+        switch (trainingPlan[trainingPlanIndex]) {
+            case ATTACK_R:
+                audioAndAnimationIndex = 0;
+                break;
+            case ATTACK_L:
+                audioAndAnimationIndex = 1;
+                break;
         }
 
 
@@ -131,62 +127,30 @@ public class TrainingDeflectState : TrainingBaseState {
         if (!wasAnimationPlayed) {
             changeAnimationState(animationsAttack[audioAndAnimationIndex]);
             wasAnimationPlayed = true;
-            trainingPlanIndex++;
+            // break into UpdateState() and wait until animation is finished
             return;
         };
 
-        prepareNextInstruction();
-
-        /*
-
-        switch (trainingPlan[trainingPlanIndex]) {
-
-            case ATTACK_R:
-                // play audio once
-                if (!wasAudioPlayed) {
-                    playSpecificAudio(audioClipsAttack[0]);
-                    wasAudioPlayed = true;
-                    // break into UpdateState() and wait until audio is finished
-                    break;
-                };
-                // play animation once
-                if (!wasAnimationPlayed) {
-                    changeAnimationState(animationsAttack[0]);
-                    wasAnimationPlayed = true;
-                };
-                break;
-
-            case ATTACK_L:
-                // play audio once
-                if (!wasAudioPlayed) {
-                    playSpecificAudio(audioClipsAttack[1]);
-                    wasAudioPlayed = true;
-                    break;
-                };
-                if (!wasAnimationPlayed) {
-                    changeAnimationState(animationsAttack[1]);
-                    wasAnimationPlayed = true;
-                };
-                break;
-
-            default:
-                break;
-        }*/
+        // reset for next trainer attack
+        prepareNextAttack(training);
     }
 
 
-    private void prepareNextInstruction() {
+    private void prepareNextAttack(TrainingStateManager training) {
+        training.resetTrainerPosition();
+        changeAnimationState(IDLE);
+        trainingPlanIndex++;
         wasAudioPlayed = false;
         wasAnimationPlayed = false;
     }
 
+
     //
     // State functions
     private void resetState() {
-        currentAudio = 0;
-        currentAnimation = 0;
+        trainingPlanIndex = 0;
         wasAudioPlayed = false;
-        nextStep = TrainingStateManager.nextStep.not_set;
+        wasAnimationPlayed = false;
         currentState = state.intro;
     }
 
@@ -198,9 +162,7 @@ public class TrainingDeflectState : TrainingBaseState {
         audioClipsCompliment = trainerAudioSO.complimentClips;
     }
 
-    public override void SetNextStep(TrainingStateManager.nextStep nextStep) {
-        this.nextStep = nextStep;
-    }
+    public override void SetNextStep(TrainingStateManager.nextStep nextStep) {}
 
 
     //
@@ -218,6 +180,8 @@ public class TrainingDeflectState : TrainingBaseState {
     }
 
 
+    //
+    // Animation
     private void changeAnimationState(string newState) {
         // stop the same animation from interrupting itself
         if (currentAnimationState == newState) {
@@ -241,6 +205,6 @@ public class TrainingDeflectState : TrainingBaseState {
 
 
     private bool isCurrentStateIdle() {
-        return animator.GetCurrentAnimatorStateInfo(0).IsName("Idle");
+        return animator.GetCurrentAnimatorStateInfo(0).IsName(IDLE);
     }
 }

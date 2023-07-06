@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 
@@ -44,12 +45,19 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
     public enum nextStep { not_set, next_state, repeat_state, skip_instructions };
 
 
+    [Header("Trainer")]
+    public Transform trainer;
+    private Vector3 trainerPositionMain;
+
 
     private void Start() {
         // Starting state
         currentState = StartState;
         // Context to this script
         currentState.EnterState(this, nextStateSpheres, trainerPositionSpheres, skipInstructionsSpheres, trainerAnimator);
+
+        // Get main trainer position
+        trainerPositionMain = trainerPositionSpheres.transform.Find("Trainer_Position_Main").transform.position;
 
         // Disable selection spheres
         HideSelectionSpheres();
@@ -101,6 +109,28 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
 
     public void RepeatState() {
         currentState.SetNextStep(TrainingStateManager.nextStep.repeat_state);
+    }
+
+
+    //
+    // Trainer
+    public void resetTrainerPosition() {
+        Vector3 destination = new Vector3(trainerPositionMain.x, trainer.position.y, trainerPositionMain.z);
+        Vector3 origin      = new Vector3(trainer.position.x,    trainer.position.y, trainer.position.z);
+
+        StartCoroutine(moveTrainer(destination, origin));
+    }
+
+    // smoothly move trainer to the position
+    private IEnumerator moveTrainer(Vector3 destination, Vector3 origin) {
+        float totalMovementTime = 0.2f; // amount of time for the move
+        float currentMovementTime = 0f; // amount of time passed
+
+        while (Vector3.Distance(trainer.position, destination) >= 0.01) {
+            currentMovementTime += Time.deltaTime;
+            trainer.position = Vector3.Lerp(origin, destination, currentMovementTime / totalMovementTime);
+            yield return null;
+        }
     }
 
 

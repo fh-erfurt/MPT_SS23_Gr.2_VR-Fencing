@@ -97,12 +97,13 @@ public class TrainingInstructionState : TrainingBaseState {
             return;
         }
 
-        prepareNextInstruction();
+        prepareNextInstruction(training);
     }
 
 
 
-    private void prepareNextInstruction() {
+    private void prepareNextInstruction(TrainingStateManager training) {
+        training.resetTrainerPosition();
         currentAnimation++;
         currentAudio++;
         readyForNextInstruction = true;
@@ -201,6 +202,6 @@ public class TrainingInstructionState : TrainingBaseState {
 
 
     private bool isCurrentStateIdle() {
-        return animator.GetCurrentAnimatorStateInfo(0).IsName("Idle");
+        return animator.GetCurrentAnimatorStateInfo(0).IsName(IDLE);
     }
 }
