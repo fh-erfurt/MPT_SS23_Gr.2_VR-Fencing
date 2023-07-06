@@ -18,8 +18,6 @@ public class TrainingInstructionState : TrainingBaseState {
     private AudioManager audioManager;
     private AudioClip[] audioClips;
 
-    private bool wasAudioPlayed = false;
-
     private int numberOfAudioClips;
     private int currentAudio = 0;
 
@@ -63,13 +61,14 @@ public class TrainingInstructionState : TrainingBaseState {
     }
 
 
+    //
     // called once per frame from TrainingStateManager
     public override void UpdateState(TrainingStateManager training) {
 
         // when the last audio-clip was played only check for next step
         if (isLastAudioClipPlayed()) {
             // wait for audio and animation to finish
-            if (!isAudioStillPlaying() && !isAnimationStillPlaying(currentAnimation-1)) {
+            if (!isAudioStillPlaying() && !isAnimationStillPlaying()) {
                 nextStateSpheres.SetActive(true);
                 checkNextState(training);
             }
@@ -82,7 +81,7 @@ public class TrainingInstructionState : TrainingBaseState {
             playAudio();
         }
 
-        // check if the audio is done playing
+        // wait until audio is done playing
         if (isAudioStillPlaying()) {
             return;
         }
@@ -93,8 +92,8 @@ public class TrainingInstructionState : TrainingBaseState {
             return;
         }
 
-        // check if the animation is done playing
-        if (isAnimationStillPlaying(currentAnimation)) {
+        // wait until animation is done playing
+        if (isAnimationStillPlaying()) {
             return;
         }
 
@@ -115,7 +114,6 @@ public class TrainingInstructionState : TrainingBaseState {
     // State functions
     private void resetState() {
         currentAudio = 0;
-        wasAudioPlayed = false;
         currentAnimation = 0;
         wasAnimationPlayed = false;
         nextStep = TrainingStateManager.nextStep.not_set;
@@ -151,7 +149,6 @@ public class TrainingInstructionState : TrainingBaseState {
     // Audio
     private void playAudio() {
         audioManager.playClipAtTrainerPosition(audioClips[currentAudio]);
-        wasAudioPlayed = true;
     }
 
     private bool isAudioStillPlaying() {
@@ -193,7 +190,7 @@ public class TrainingInstructionState : TrainingBaseState {
     }
 
 
-    private bool isAnimationStillPlaying(int currentAnimation) {
+    private bool isAnimationStillPlaying() {
 
         if (isCurrentStateIdle() && !animator.IsInTransition(0)) {
             return false;
