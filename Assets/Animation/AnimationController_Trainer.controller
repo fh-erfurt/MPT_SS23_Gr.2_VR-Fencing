@@ -262,7 +262,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: AnimationController_Trainer_new
+  m_Name: AnimationController_Trainer
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: Successful_Block
