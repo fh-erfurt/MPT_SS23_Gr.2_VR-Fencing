@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using TMPro;
 
 
 public class TrainingStateManager : MonoBehaviour, IObserver {
@@ -24,13 +25,13 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
     public Animator trainerAnimator;
     private Vector3 trainerPositionMain;
 
-    [Header("Manager")]
-    private AudioManager audioManager;
-
     [Header("Selection Spheres")]
     public GameObject skipInstructionsSpheres;
     public GameObject nextStateSpheres;
     public GameObject trainerPositionSpheres;
+
+    [Header("UI")]
+    public TMP_Text currentActionText;
 
 
     // Observer-pattern
@@ -44,6 +45,10 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
     [SerializeField] Subject _weakSide;
 
 
+    // Manager
+    private AudioManager audioManager;
+
+    // Enums
     public enum nextStep { not_set, next_state, repeat_state, skip_instructions };
 
     public enum swordSide { weak, strong };
@@ -80,18 +85,25 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
     }
 
 
+    //
+    // Update for each state
     private void Update() {
         // Call UpdateState on the current state on every frame
         currentState.UpdateState(this);
     }
 
 
+
+    //
+    // Switch to a new state
     public void SwitchState(TrainingBaseState newState) {
         currentState = newState;
         newState.EnterState(this, nextStateSpheres, trainerPositionSpheres, skipInstructionsSpheres, trainerAnimator);
     }
 
 
+    //
+    // Selection Spheres
     public void HideSelectionSpheres() {
         nextStateSpheres.SetActive(false);
         trainerPositionSpheres.SetActive(false);
@@ -111,6 +123,11 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
 
     public void RepeatState() {
         currentState.SetNextStep(TrainingStateManager.nextStep.repeat_state);
+    }
+
+
+    public void setCurrentAction(string action) {
+        currentActionText.text = "Current: " + action;
     }
 
 
@@ -160,4 +177,7 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
     public void OnNotify(TrainingStateManager.swordSide swordSide) {
         DeflectState.detectHit(swordSide);
     }
+
+    // not important
+    public void OnNotify(int i) {}
 }

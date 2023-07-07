@@ -6,16 +6,9 @@ public class SceneInitiator : MonoBehaviour {
 
     [Header("UI Texts")]
     public TMP_Text currentTraining;
-    public TMP_Text trainingScore;
-    public TMP_Text trainingTime;
 
     [Header("Training Types")]
     public TrainingSO[] trainingTypesSO;
-
-
-    // Defaults
-    string trainingScoreDefault = "00000";
-    string trainingTimeDefault = "15:00";
 
 
     private MainManager mainManager;
@@ -25,8 +18,6 @@ public class SceneInitiator : MonoBehaviour {
         mainManager = MainManager.instance;
 
         currentTraining.text = getTrainingName() + " (" + mainManager.selectedDifficulty.ToString() + ")";
-        trainingScore.text = trainingScoreDefault;
-        trainingTime.text = trainingTimeDefault;
     }
 
 

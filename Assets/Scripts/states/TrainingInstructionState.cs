@@ -48,6 +48,8 @@ public class TrainingInstructionState : TrainingBaseState {
 
         resetState();
 
+        training.setCurrentAction("Instruction");
+
         training.HideSelectionSpheres();
         this.nextStateSpheres = nextStateSpheres;
         this.trainerPositionSpheres = trainerPositionSpheres;
@@ -103,7 +105,7 @@ public class TrainingInstructionState : TrainingBaseState {
 
 
     private void prepareNextInstruction(TrainingStateManager training) {
-        training.resetTrainerPosition();
+        // training.resetTrainerPosition();
         currentAnimation++;
         currentAudio++;
         readyForNextInstruction = true;

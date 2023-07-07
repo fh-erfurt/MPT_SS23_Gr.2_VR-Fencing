@@ -29,8 +29,13 @@ public class TrainingStartState : TrainingBaseState {
                                     GameObject skipInstructionSpheres,
                                     Animator trainerAnimator) {
         resetState();
+
         training.HideSelectionSpheres();
+
+        training.setCurrentAction("Introduction");
+
         this.skipInstructionSpheres = skipInstructionSpheres;
+
         animator = trainerAnimator;
     }
 

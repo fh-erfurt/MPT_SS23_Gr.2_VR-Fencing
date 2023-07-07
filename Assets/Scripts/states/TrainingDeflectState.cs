@@ -23,7 +23,6 @@ public class TrainingDeflectState : TrainingBaseState {
     // Animation
     private string[] animationsGeneral = { IDLE };
     private string[] animationsAttack  = { ATTACK_R, ATTACK_L };
-    // private string[] animationsBlockSuccess = { ATTACK_SUCCESS_R, ATTACK_SUCCESS_L };
     private bool wasAnimationPlayed = false;
     private string currentAnimationState;
 
@@ -43,6 +42,9 @@ public class TrainingDeflectState : TrainingBaseState {
     private bool successfulBlock = false;
     private TrainingStateManager.swordSide hitSide;
 
+    // Points
+    private Points points;
+
 
 
     public override void EnterState(TrainingStateManager training, GameObject nextStateSpheres, GameObject trainerPositionSpheres,
@@ -56,6 +58,10 @@ public class TrainingDeflectState : TrainingBaseState {
 
         // default animation state
         changeAnimationState(IDLE);
+
+        if (points == null) {
+            points = Points.instance;
+        }
     }
 
 
@@ -120,9 +126,11 @@ public class TrainingDeflectState : TrainingBaseState {
         switch (trainingPlan[trainingPlanIndex]) {
             case ATTACK_R:
                 audioAndAnimationIndex = 0;
+                training.setCurrentAction("Attack Right");
                 break;
             case ATTACK_L:
                 audioAndAnimationIndex = 1;
+                training.setCurrentAction("Attack Left");
                 break;
         }
 
@@ -264,11 +272,11 @@ public class TrainingDeflectState : TrainingBaseState {
         switch (swordSide) {
             case TrainingStateManager.swordSide.strong:
                 hitSide = TrainingStateManager.swordSide.strong;
-                Points.AddPoints(100);
+                points.AddPoints(100);
                 break;
             case TrainingStateManager.swordSide.weak:
                 hitSide = TrainingStateManager.swordSide.weak;
-                Points.AddPoints(50);
+                points.AddPoints(50);
                 break;
         }
     }

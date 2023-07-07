@@ -7,7 +7,7 @@ public class Weak_side_hit : Subject {
 
         if (other.CompareTag("enemy_fence")) {
             print("Weak side got hit!");
-            NotifyObservers(TrainingStateManager.swordSide.weak);
+            NotifySwordObservers(TrainingStateManager.swordSide.weak);
         }
     }
 }

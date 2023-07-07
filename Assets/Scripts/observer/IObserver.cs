@@ -4,4 +4,7 @@ public interface IObserver {
 
     // sword
     public void OnNotify(TrainingStateManager.swordSide swordSide);
+
+    // points ui
+    public void OnNotify(int totalPoints);
 }
