@@ -1,0 +1,54 @@
+{
+    "name": "MyInputActions",
+    "maps": [
+        {
+            "name": "MyActionMap",
+            "id": "803faad7-12ad-4e03-a1c0-0d08078d3199",
+            "actions": [
+                {
+                    "name": "LeftTriggerButton",
+                    "type": "Button",
+                    "id": "a0cd63ef-9e4c-42b5-82e7-3d9ce92bb187",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RightTriggerButton",
+                    "type": "Value",
+                    "id": "dbe5a9d4-5df7-447c-ad99-ec7ad65bea25",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "a866b6a1-c67f-4210-8576-239b69cb5b6b",
+                    "path": "<XRController>{RightHand}/triggerPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LeftTriggerButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9646399d-a9b7-4435-b68f-cc27efe25600",
+                    "path": "<XRController>{RightHand}/trigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RightTriggerButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
