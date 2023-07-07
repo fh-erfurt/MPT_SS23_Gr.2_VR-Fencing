@@ -23,4 +23,12 @@ public abstract class Subject : MonoBehaviour {
             _observer.OnNotify(nextStep);
         });
     }
+
+
+    // update points on ui
+    protected void NotifyUIPointsObservers(int totalPoints) {
+        _observers.ForEach((_observer) => {
+            _observer.OnNotify(totalPoints);
+        });
+    }
 }

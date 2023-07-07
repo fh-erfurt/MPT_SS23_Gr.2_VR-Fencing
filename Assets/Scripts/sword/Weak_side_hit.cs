@@ -1,25 +1,23 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Weak_side_hit : MonoBehaviour
-{
-    private float pointGain;
-    public float points = 100;
 
-    private void Start()
-    {
-        pointGain = points;
+public class Weak_side_hit : MonoBehaviour {
+
+    private TrainingStateManager trainingStateManager;
+
+    private void Start() {
+        if (trainingStateManager == null) {
+            trainingStateManager = TrainingStateManager.instance;
+        }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("enemy_fence"))
-        {
+
+    private void OnTriggerEnter(Collider other) {
+
+        if (other.CompareTag("enemy_fence")) {
             print("Weak side got hit!");
-            Points.AddPoints(pointGain);
-            print("You gained:" + pointGain + " points");
+            trainingStateManager.hitDetected(TrainingStateManager.swordSide.weak);
+            // NotifySwordObservers(TrainingStateManager.swordSide.weak);
         }
     }
 }

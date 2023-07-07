@@ -6,27 +6,35 @@ public class SceneInitiator : MonoBehaviour {
 
     [Header("UI Texts")]
     public TMP_Text currentTraining;
-    public TMP_Text trainingScore;
-    public TMP_Text trainingTime;
 
     [Header("Training Types")]
     public TrainingSO[] trainingTypesSO;
 
-
-    // Defaults
-    string trainingScoreDefault = "00000";
-    string trainingTimeDefault = "15:00";
-
+    [Header("Trainer Animator")]
+    public Animator animator;
 
     private MainManager mainManager;
 
 
     private void Start() {
-        mainManager = MainManager.instance;
+        if (mainManager == null) {
+            mainManager = MainManager.instance;
+        }
+
+        // speed of training is determined by the selected difficulty
+        switch (mainManager.selectedDifficulty) {
+            case MainManager.difficulty.easy:
+                animator.speed = 1f;
+                break;
+            case MainManager.difficulty.medium:
+                animator.speed = 1.5f;
+                break;
+            case MainManager.difficulty.hard:
+                animator.speed = 2f;
+                break;
+        }
 
         currentTraining.text = getTrainingName() + " (" + mainManager.selectedDifficulty.ToString() + ")";
-        trainingScore.text = trainingScoreDefault;
-        trainingTime.text = trainingTimeDefault;
     }
 
 

@@ -17,6 +17,9 @@ public class TrainingEndState : TrainingBaseState {
     // Selection spheres
     private GameObject nextStateSpheres;
 
+    // Trainer animator
+    private Animator animator;
+
     // Next step
     private TrainingStateManager.nextStep nextStep = TrainingStateManager.nextStep.not_set;
 
@@ -28,10 +31,12 @@ public class TrainingEndState : TrainingBaseState {
     public override void EnterState(TrainingStateManager training,
                                     GameObject nextStateSpheres,
                                     GameObject trainerPositionSpheres,
-                                    GameObject skipInstructionSpheres) {
+                                    GameObject skipInstructionSpheres,
+                                    Animator trainerAnimator) {
         resetState();
         training.HideSelectionSpheres();
         this.nextStateSpheres = nextStateSpheres;
+        animator = trainerAnimator;
     }
 
 

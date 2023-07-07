@@ -13,7 +13,13 @@ MonoBehaviour:
   m_Name: DeflectingAudios
   m_EditorClassIdentifier: 
   audioClips:
-  - {fileID: 8300000, guid: 8eadf367d986b2e41b82a60f59163407, type: 3}
-  - {fileID: 8300000, guid: 230cadd39816170479b62838cc689844, type: 3}
-  - {fileID: 8300000, guid: 233197ed69af83f48b72e4cae3ad71f0, type: 3}
-  - {fileID: 8300000, guid: ab7c7027eba46cf4e874d28dda22d7d2, type: 3}
+  - {fileID: 8300000, guid: 40d93b02f24bac243ad0d96b89b12bb9, type: 3}
+  attackClips:
+  - {fileID: 8300000, guid: 44aa4f3d83be97941bc59796127b60ff, type: 3}
+  - {fileID: 8300000, guid: 1eaa410dbc5f1f94bacca1923e19b302, type: 3}
+  failureClips:
+  - {fileID: 8300000, guid: cf40da1238d6702408fdd7c81e7de1ea, type: 3}
+  complimentClips:
+  - {fileID: 8300000, guid: b04953809e6fe824894ec3cf3d210d20, type: 3}
+  - {fileID: 8300000, guid: a09c9e809e0f2d44e8c75ed3d0fe9dac, type: 3}
+  - {fileID: 8300000, guid: 1446a1f3d0adf68479e3d1a62ff278ae, type: 3}

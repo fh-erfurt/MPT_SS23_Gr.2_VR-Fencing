@@ -12,7 +12,7 @@ public class MainManager : MonoBehaviour {
     public difficulty selectedDifficulty { get; set; } = difficulty.easy;
     public trainingType selectedTraining { get; set; } = trainingType.training_1;
 
-
+    // Singleton
     public static MainManager instance;
 
 
@@ -26,5 +26,9 @@ public class MainManager : MonoBehaviour {
         instance = this;
         // keep MainManager alive through scene-loading
         DontDestroyOnLoad(gameObject);
+    }
+
+    private void Start() {
+        
     }
 }

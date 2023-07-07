@@ -6,7 +6,8 @@ public abstract class TrainingBaseState {
     public abstract void EnterState(TrainingStateManager training,
                                     GameObject nextStateSpheres,
                                     GameObject trainerPositionSpheres,
-                                    GameObject skipInstructionSpheres);
+                                    GameObject skipInstructionSpheres,
+                                    Animator trainerAnimator);
 
     public abstract void UpdateState(TrainingStateManager training);
 

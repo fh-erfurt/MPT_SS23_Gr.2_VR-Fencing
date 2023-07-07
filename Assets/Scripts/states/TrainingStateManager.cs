@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using TMPro;
 
 
 public class TrainingStateManager : MonoBehaviour, IObserver {
@@ -18,35 +20,59 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
     public TrainerAudioSO deflectingAudiosSO;
     public TrainerAudioSO endAudiosSO;
 
-    private AudioManager audioManager;
+    [Header("Trainer")]
+    public Transform trainer;
+    public Animator trainerAnimator;
+    private Vector3 trainerPositionMain;
 
-    [Header("Skip Instructions Spheres")]
+    [Header("Selection Spheres")]
     public GameObject skipInstructionsSpheres;
-
-    [Header("Next State Spheres")]
     public GameObject nextStateSpheres;
-
-    [Header("Trainer Position Spheres")]
     public GameObject trainerPositionSpheres;
+
+    [Header("Table")]
+    public GameObject table;
+
+    [Header("UI")]
+    public TMP_Text currentActionText;
 
 
     // Observer-pattern
-    [Header("Subject of Observer")]
+    [Header("Sphere Subjects")]
     [SerializeField] Subject _nextStateSphereSubject;
     [SerializeField] Subject _repeatStateSphereSubject;
     [SerializeField] Subject _skipInstructionSphereSubject;
     [SerializeField] Subject _dontSkipInstructionSphereSubject;
 
 
+    // Manager
+    private AudioManager audioManager;
+
+    // Enums
     public enum nextStep { not_set, next_state, repeat_state, skip_instructions };
 
+    public enum swordSide { weak, strong };
+
+
+    // Singleton
+    public static TrainingStateManager instance;
+
+    private void Awake() {
+        // Singleton
+        if (instance == null) {
+            instance = this;
+        }
+    }
 
 
     private void Start() {
         // Starting state
         currentState = StartState;
         // Context to this script
-        currentState.EnterState(this, nextStateSpheres, trainerPositionSpheres, skipInstructionsSpheres);
+        currentState.EnterState(this, nextStateSpheres, trainerPositionSpheres, skipInstructionsSpheres, trainerAnimator);
+
+        // Get main trainer position
+        trainerPositionMain = trainerPositionSpheres.transform.Find("Trainer_Position_Main").transform.position;
 
         // Disable selection spheres
         HideSelectionSpheres();
@@ -67,18 +93,25 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
     }
 
 
+    //
+    // Update for each state
     private void Update() {
         // Call UpdateState on the current state on every frame
         currentState.UpdateState(this);
     }
 
 
+
+    //
+    // Switch to a new state
     public void SwitchState(TrainingBaseState newState) {
         currentState = newState;
-        newState.EnterState(this, nextStateSpheres, trainerPositionSpheres, skipInstructionsSpheres);
+        newState.EnterState(this, nextStateSpheres, trainerPositionSpheres, skipInstructionsSpheres, trainerAnimator);
     }
 
 
+    //
+    // Selection Spheres
     public void HideSelectionSpheres() {
         nextStateSpheres.SetActive(false);
         trainerPositionSpheres.SetActive(false);
@@ -101,6 +134,33 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
     }
 
 
+    public void setCurrentAction(string action) {
+        currentActionText.text = "Current: " + action;
+    }
+
+
+    //
+    // Trainer
+    public void resetTrainerPosition() {
+        Vector3 destination = new Vector3(trainerPositionMain.x, trainer.position.y, trainerPositionMain.z);
+        Vector3 origin      = new Vector3(trainer.position.x,    trainer.position.y, trainer.position.z);
+
+        StartCoroutine(moveTrainer(destination, origin));
+    }
+
+    // smoothly move trainer to the position
+    private IEnumerator moveTrainer(Vector3 destination, Vector3 origin) {
+        float totalMovementTime = 0.2f; // amount of time for the move
+        float currentMovementTime = 0f; // amount of time passed
+
+        while (Vector3.Distance(trainer.position, destination) >= 0.01) {
+            currentMovementTime += Time.deltaTime;
+            trainer.position = Vector3.Lerp(origin, destination, currentMovementTime / totalMovementTime);
+            yield return null;
+        }
+    }
+
+
     //
     // Observer
     public void OnNotify(TrainingStateManager.nextStep nextStep) {
@@ -119,5 +179,24 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
             SkipInstructions();
             return;
         }
+    }
+
+    // Sword
+    public void hitDetected(TrainingStateManager.swordSide swordSide) {
+        if (currentState == DeflectState) {
+            DeflectState.detectHit(swordSide);
+        }
+    }
+
+    public void OnNotify(TrainingStateManager.swordSide swordSide) {}
+
+    // not important
+    public void OnNotify(int i) {}
+
+
+    //
+    // Table
+    public void hideTable() {
+        table.SetActive(false);
     }
 }
