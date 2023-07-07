@@ -70,7 +70,7 @@ public class BlockTraining : MonoBehaviour
     }
 
 
-    //TODO: Die Blöcke spawnen noch nicht ganz an den richtigen STellen; umschreiben doer richtig basteln. kA wodran das aktuell liegt
+    //TODO: Die Blöcke spawnen noch nicht ganz an den richtigen Stellen; umschreiben doer richtig basteln. kA wodran das aktuell liegt --> evt Fehler wegen World-Position und 
     GameObject SpawnBlock(GameObject prefab, Vector3 position)
     {
         GameObject newBlock = Instantiate(prefab, position, Quaternion.identity);
