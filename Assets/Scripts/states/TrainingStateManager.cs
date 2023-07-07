@@ -19,17 +19,18 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
     public TrainerAudioSO deflectingAudiosSO;
     public TrainerAudioSO endAudiosSO;
 
-    [Header("Manager")]
+    [Header("Trainer")]
+    public Transform trainer;
     public Animator trainerAnimator;
+    private Vector3 trainerPositionMain;
+
+    [Header("Manager")]
     private AudioManager audioManager;
 
     [Header("Selection Spheres")]
     public GameObject skipInstructionsSpheres;
     public GameObject nextStateSpheres;
     public GameObject trainerPositionSpheres;
-
-
-    [Header("Sword Hitboxes")]
 
 
     // Observer-pattern
@@ -42,12 +43,11 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
     [SerializeField] Subject _strongSide;
     [SerializeField] Subject _weakSide;
 
+
     public enum nextStep { not_set, next_state, repeat_state, skip_instructions };
 
+    public enum swordSide { weak, strong };
 
-    [Header("Trainer")]
-    public Transform trainer;
-    private Vector3 trainerPositionMain;
 
 
     private void Start() {
@@ -75,6 +75,8 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
         _repeatStateSphereSubject.AddObserver(this);
         _skipInstructionSphereSubject.AddObserver(this);
         _dontSkipInstructionSphereSubject.AddObserver(this);
+        _strongSide.AddObserver(this);
+        _weakSide.AddObserver(this);
     }
 
 
@@ -155,7 +157,7 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
     }
 
     // Sword
-    public void OnNotify() {
-        
+    public void OnNotify(TrainingStateManager.swordSide swordSide) {
+        DeflectState.detectHit(swordSide);
     }
 }

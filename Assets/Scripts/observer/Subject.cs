@@ -25,9 +25,9 @@ public abstract class Subject : MonoBehaviour {
     }
 
     // for sword
-    protected void NotifyObservers() {
+    protected void NotifyObservers(TrainingStateManager.swordSide swordSide) {
         _observers.ForEach((_observer) => {
-            _observer.OnNotify();
+            _observer.OnNotify(swordSide);
         });
     }
 }

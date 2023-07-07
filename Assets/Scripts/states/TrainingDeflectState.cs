@@ -17,13 +17,13 @@ public class TrainingDeflectState : TrainingBaseState {
     private const string IDLE = "Idle";
     private const string ATTACK_R = "Attack_R";
     private const string ATTACK_L = "Attack_L";
-    private const string ATTACK_SUCCESS_R = "Attack_R_Success";
-    private const string ATTACK_SUCCESS_L = "Attack_L_Success";
+    private const string BLOCK_SUCCESS_R = "Block_R_Success";
+    private const string BLOCK_SUCCESS_L = "Block_L_Success";
 
     // Animation
     private string[] animationsGeneral = { IDLE };
     private string[] animationsAttack  = { ATTACK_R, ATTACK_L };
-    private string[] animationsBlockSuccess = { ATTACK_SUCCESS_R, ATTACK_SUCCESS_L };
+    // private string[] animationsBlockSuccess = { ATTACK_SUCCESS_R, ATTACK_SUCCESS_L };
     private bool wasAnimationPlayed = false;
     private string currentAnimationState;
 
@@ -32,14 +32,16 @@ public class TrainingDeflectState : TrainingBaseState {
     private AudioClip[] audioClipsGeneral;
     private AudioClip[] audioClipsAttack;
     private AudioClip[] audioClipsFailure;
-    private AudioClip[] audioClipsCompliment;
+    private AudioClip[] audioClipsSuccess;
     private bool wasAudioPlayed = false;
 
     // Trainer animator
     private Animator animator;
 
     // Sword
+    private bool hitDetected = false;
     private bool successfulBlock = false;
+    private TrainingStateManager.swordSide hitSide;
 
 
 
@@ -63,6 +65,16 @@ public class TrainingDeflectState : TrainingBaseState {
 
         // wait until audio is done playing
         if (isAudioStillPlaying()) {
+            return;
+        }
+
+        // TODO: only check at the end of animation
+        if (hitDetected && isAnimationStillPlaying()) {
+            hitDetected = false;
+            Debug.Log("<color=yellow>hit in update detected</color>");
+            if (trainingPlan[trainingPlanIndex] == ATTACK_R) playSuccessAnimationRight();
+            if (trainingPlan[trainingPlanIndex] == ATTACK_L) playSuccessAnimationLeft();
+            playSuccessSound();
             return;
         }
 
@@ -96,7 +108,7 @@ public class TrainingDeflectState : TrainingBaseState {
     // Training Plan
     private void executeTrainingPlan(TrainingStateManager training) {
 
-        short audioAndAnimationIndex = -1;
+        short audioAndAnimationIndex = 0;
 
         // when last step in traininPlan was reached
         if (trainingPlanIndex == trainingPlan.Length) {
@@ -113,7 +125,6 @@ public class TrainingDeflectState : TrainingBaseState {
                 audioAndAnimationIndex = 1;
                 break;
         }
-
 
         // play audio once
         if (!wasAudioPlayed) {
@@ -137,11 +148,19 @@ public class TrainingDeflectState : TrainingBaseState {
 
 
     private void prepareNextAttack(TrainingStateManager training) {
+
+        Debug.Log("<color=blue>prepare next attack</color>");
         training.resetTrainerPosition();
+
         changeAnimationState(IDLE);
+
         trainingPlanIndex++;
+
         wasAudioPlayed = false;
         wasAnimationPlayed = false;
+
+        hitDetected = false;
+        successfulBlock = false;
     }
 
 
@@ -149,9 +168,14 @@ public class TrainingDeflectState : TrainingBaseState {
     // State functions
     private void resetState() {
         trainingPlanIndex = 0;
+
+        currentState = state.intro;
+
         wasAudioPlayed = false;
         wasAnimationPlayed = false;
-        currentState = state.intro;
+
+        hitDetected = false;
+        successfulBlock = false;
     }
 
     public override void SetAudios(AudioManager audioManager, TrainerAudioSO trainerAudioSO) {
@@ -159,7 +183,7 @@ public class TrainingDeflectState : TrainingBaseState {
         audioClipsGeneral = trainerAudioSO.audioClips;
         audioClipsAttack = trainerAudioSO.attackClips;
         audioClipsFailure = trainerAudioSO.failureClips;
-        audioClipsCompliment = trainerAudioSO.complimentClips;
+        audioClipsSuccess = trainerAudioSO.complimentClips;
     }
 
     public override void SetNextStep(TrainingStateManager.nextStep nextStep) {}
@@ -179,18 +203,34 @@ public class TrainingDeflectState : TrainingBaseState {
         playSpecificAudio(audioClipsGeneral[0]);
     }
 
+    private void playSuccessSound() {
+        playSpecificAudio(audioClipsSuccess[Random.Range(0, audioClipsSuccess.Length-1)]);
+    }
+
 
     //
     // Animation
-    private void changeAnimationState(string newState) {
+    private void changeAnimationState(string newState, bool normalizedTime = false) {
         // stop the same animation from interrupting itself
         if (currentAnimationState == newState) {
             return;
         }
         // play animation
-        animator.Play(newState);
+        if (normalizedTime) animator.Play(newState, 0, animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
+        else                animator.Play(newState);
         // reassign the current state
         currentAnimationState = newState;
+    }
+
+
+    private void playSuccessAnimationLeft() {
+        Debug.Log("<color=green>playSuccessAnimation</color>");
+        changeAnimationState(BLOCK_SUCCESS_L, true);
+    }
+
+    private void playSuccessAnimationRight() {
+        Debug.Log("<color=green>playSuccessAnimation</color>");
+        changeAnimationState(BLOCK_SUCCESS_R, true);
     }
 
 
@@ -199,12 +239,37 @@ public class TrainingDeflectState : TrainingBaseState {
         if (isCurrentStateIdle() && !animator.IsInTransition(0)) {
             return false;
         }
-
         return !isCurrentStateIdle();
     }
 
-
     private bool isCurrentStateIdle() {
         return animator.GetCurrentAnimatorStateInfo(0).IsName(IDLE);
+    }
+
+
+    //
+    // Sword Hits
+    public void detectHit(TrainingStateManager.swordSide swordSide) {
+
+        Debug.Log("<color=red>Hit detected from observer</color>");
+
+        // allow only one hit-detection per attack
+        if (hitDetected) {
+            return;
+        }
+
+        hitDetected = true;
+
+        // check which side was hit
+        switch (swordSide) {
+            case TrainingStateManager.swordSide.strong:
+                hitSide = TrainingStateManager.swordSide.strong;
+                Points.AddPoints(100);
+                break;
+            case TrainingStateManager.swordSide.weak:
+                hitSide = TrainingStateManager.swordSide.weak;
+                Points.AddPoints(50);
+                break;
+        }
     }
 }

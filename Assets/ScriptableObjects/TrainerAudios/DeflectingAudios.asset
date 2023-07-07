@@ -17,5 +17,9 @@ MonoBehaviour:
   attackClips:
   - {fileID: 8300000, guid: 44aa4f3d83be97941bc59796127b60ff, type: 3}
   - {fileID: 8300000, guid: 1eaa410dbc5f1f94bacca1923e19b302, type: 3}
-  failureClips: []
-  complimentClips: []
+  failureClips:
+  - {fileID: 8300000, guid: cf40da1238d6702408fdd7c81e7de1ea, type: 3}
+  complimentClips:
+  - {fileID: 8300000, guid: b04953809e6fe824894ec3cf3d210d20, type: 3}
+  - {fileID: 8300000, guid: a09c9e809e0f2d44e8c75ed3d0fe9dac, type: 3}
+  - {fileID: 8300000, guid: 1446a1f3d0adf68479e3d1a62ff278ae, type: 3}
