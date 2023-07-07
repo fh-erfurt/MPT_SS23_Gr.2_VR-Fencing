@@ -9,6 +9,8 @@ TagManager:
   - SwordCollider
   - blockingBlock
   - Sword
+  - swordCylinder
+  - hand
   layers:
   - Default
   - TransparentFX
