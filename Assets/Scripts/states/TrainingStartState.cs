@@ -22,6 +22,9 @@ public class TrainingStartState : TrainingBaseState {
     // Next step
     private TrainingStateManager.nextStep nextStep = TrainingStateManager.nextStep.not_set;
 
+    // Points
+    private Points points;
+
 
     public override void EnterState(TrainingStateManager training,
                                     GameObject nextStateSpheres,
@@ -29,6 +32,12 @@ public class TrainingStartState : TrainingBaseState {
                                     GameObject skipInstructionSpheres,
                                     Animator trainerAnimator) {
         resetState();
+
+        // reset points on start
+        if (points == null) {
+            points = Points.instance;
+        }
+        points.ResetPoints();
 
         training.HideSelectionSpheres();
 

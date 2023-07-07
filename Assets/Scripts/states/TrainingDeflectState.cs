@@ -40,7 +40,10 @@ public class TrainingDeflectState : TrainingBaseState {
     // Sword
     private bool hitDetected = false;
     private bool successfulBlock = false;
+    private bool pointsGained = false;
+    
     private TrainingStateManager.swordSide hitSide;
+
 
     // Points
     private Points points;
@@ -53,6 +56,8 @@ public class TrainingDeflectState : TrainingBaseState {
 
         // hide spheres which change the trainer position
         training.HideSelectionSpheres();
+
+        training.hideTable();
 
         animator = trainerAnimator;
 
@@ -74,13 +79,10 @@ public class TrainingDeflectState : TrainingBaseState {
             return;
         }
 
-        // TODO: only check at the end of animation
-        if (hitDetected && isAnimationStillPlaying()) {
-            hitDetected = false;
+        // TODO: if sword in block then set successfulBlock = true
+        if (successfulBlock && !pointsGained) {
             Debug.Log("<color=yellow>hit in update detected</color>");
-            if (trainingPlan[trainingPlanIndex] == ATTACK_R) playSuccessAnimationRight();
-            if (trainingPlan[trainingPlanIndex] == ATTACK_L) playSuccessAnimationLeft();
-            playSuccessSound();
+            successfullyBlocked();
             return;
         }
 
@@ -155,6 +157,29 @@ public class TrainingDeflectState : TrainingBaseState {
     }
 
 
+    //
+    // Attacks / Blocks
+    private void successfullyBlocked() {
+
+        // check which side was hit
+        switch (hitSide) {
+            case TrainingStateManager.swordSide.strong:
+                points.AddPoints(100);
+                break;
+            case TrainingStateManager.swordSide.weak:
+                points.AddPoints(50);
+                break;
+        }
+
+        pointsGained = true;
+
+        if (trainingPlan[trainingPlanIndex] == ATTACK_R) playSuccessAnimationRight();
+        if (trainingPlan[trainingPlanIndex] == ATTACK_L) playSuccessAnimationLeft();
+
+        playSuccessSound();
+    }
+
+
     private void prepareNextAttack(TrainingStateManager training) {
 
         Debug.Log("<color=blue>prepare next attack</color>");
@@ -162,13 +187,21 @@ public class TrainingDeflectState : TrainingBaseState {
 
         changeAnimationState(IDLE);
 
+        if (!successfulBlock) {
+            repeatAttack();
+            return;
+        }
+
         trainingPlanIndex++;
 
-        wasAudioPlayed = false;
-        wasAnimationPlayed = false;
+        resetChecks();
+    }
 
-        hitDetected = false;
-        successfulBlock = false;
+
+    private void repeatAttack() {
+        points.SubtractPoints(10);
+        playFailSound();
+        resetChecks();
     }
 
 
@@ -179,11 +212,16 @@ public class TrainingDeflectState : TrainingBaseState {
 
         currentState = state.intro;
 
+        resetChecks();
+    }
+
+    private void resetChecks() {
         wasAudioPlayed = false;
         wasAnimationPlayed = false;
 
         hitDetected = false;
         successfulBlock = false;
+        pointsGained = false;
     }
 
     public override void SetAudios(AudioManager audioManager, TrainerAudioSO trainerAudioSO) {
@@ -213,6 +251,10 @@ public class TrainingDeflectState : TrainingBaseState {
 
     private void playSuccessSound() {
         playSpecificAudio(audioClipsSuccess[Random.Range(0, audioClipsSuccess.Length-1)]);
+    }
+
+    private void playFailSound() {
+        playSpecificAudio(audioClipsFailure[0]);
     }
 
 
@@ -259,8 +301,6 @@ public class TrainingDeflectState : TrainingBaseState {
     // Sword Hits
     public void detectHit(TrainingStateManager.swordSide swordSide) {
 
-        Debug.Log("<color=red>Hit detected from observer</color>");
-
         // allow only one hit-detection per attack
         if (hitDetected) {
             return;
@@ -268,16 +308,9 @@ public class TrainingDeflectState : TrainingBaseState {
 
         hitDetected = true;
 
-        // check which side was hit
-        switch (swordSide) {
-            case TrainingStateManager.swordSide.strong:
-                hitSide = TrainingStateManager.swordSide.strong;
-                points.AddPoints(100);
-                break;
-            case TrainingStateManager.swordSide.weak:
-                hitSide = TrainingStateManager.swordSide.weak;
-                points.AddPoints(50);
-                break;
-        }
+        // TODO: remove
+        successfulBlock = true;
+
+        hitSide = swordSide;
     }
 }

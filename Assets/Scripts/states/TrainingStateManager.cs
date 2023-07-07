@@ -30,6 +30,9 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
     public GameObject nextStateSpheres;
     public GameObject trainerPositionSpheres;
 
+    [Header("Table")]
+    public GameObject table;
+
     [Header("UI")]
     public TMP_Text currentActionText;
 
@@ -175,9 +178,17 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
 
     // Sword
     public void OnNotify(TrainingStateManager.swordSide swordSide) {
-        DeflectState.detectHit(swordSide);
+        if (currentState == DeflectState) {
+            DeflectState.detectHit(swordSide);
+        }
     }
 
     // not important
     public void OnNotify(int i) {}
+
+
+    // table
+    public void hideTable() {
+        table.SetActive(false);
+    }
 }

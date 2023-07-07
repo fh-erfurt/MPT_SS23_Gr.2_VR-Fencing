@@ -23,11 +23,12 @@ public class Points : Subject {
     }
 
 
-    public static void ResetPoints() {
+    public void ResetPoints() {
         totalPoints = 0;
+        NotifyUIPointsObservers(totalPoints);
     }
 
-    public static int GetPoints() {
+    public int GetPoints() {
         return totalPoints;
     }
 
@@ -40,6 +41,10 @@ public class Points : Subject {
 
     public void SubtractPoints(int amount) {
         totalPoints -= amount;
+
+        if (totalPoints < 0) {
+            totalPoints = 0;
+        }
         Debug.Log("Points subtracted | Total points: " + totalPoints);
         NotifyUIPointsObservers(totalPoints);
     }

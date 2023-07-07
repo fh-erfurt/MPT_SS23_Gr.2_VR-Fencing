@@ -48,6 +48,8 @@ public class TrainingInstructionState : TrainingBaseState {
 
         resetState();
 
+        training.hideTable();
+
         training.setCurrentAction("Instruction");
 
         training.HideSelectionSpheres();
