@@ -43,9 +43,6 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
     [SerializeField] Subject _repeatStateSphereSubject;
     [SerializeField] Subject _skipInstructionSphereSubject;
     [SerializeField] Subject _dontSkipInstructionSphereSubject;
-    [Header("Sword Subjects")]
-    [SerializeField] Subject _strongSide;
-    [SerializeField] Subject _weakSide;
 
 
     // Manager
@@ -56,6 +53,16 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
 
     public enum swordSide { weak, strong };
 
+
+    // Singleton
+    public static TrainingStateManager instance;
+
+    private void Awake() {
+        // Singleton
+        if (instance == null) {
+            instance = this;
+        }
+    }
 
 
     private void Start() {
@@ -83,8 +90,6 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
         _repeatStateSphereSubject.AddObserver(this);
         _skipInstructionSphereSubject.AddObserver(this);
         _dontSkipInstructionSphereSubject.AddObserver(this);
-        _strongSide.AddObserver(this);
-        _weakSide.AddObserver(this);
     }
 
 
@@ -177,17 +182,20 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
     }
 
     // Sword
-    public void OnNotify(TrainingStateManager.swordSide swordSide) {
+    public void hitDetected(TrainingStateManager.swordSide swordSide) {
         if (currentState == DeflectState) {
             DeflectState.detectHit(swordSide);
         }
     }
 
+    public void OnNotify(TrainingStateManager.swordSide swordSide) {}
+
     // not important
     public void OnNotify(int i) {}
 
 
-    // table
+    //
+    // Table
     public void hideTable() {
         table.SetActive(false);
     }

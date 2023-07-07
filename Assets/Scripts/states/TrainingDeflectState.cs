@@ -128,11 +128,11 @@ public class TrainingDeflectState : TrainingBaseState {
         switch (trainingPlan[trainingPlanIndex]) {
             case ATTACK_R:
                 audioAndAnimationIndex = 0;
-                training.setCurrentAction("Attack Right");
+                training.setCurrentAction("Block Left");
                 break;
             case ATTACK_L:
                 audioAndAnimationIndex = 1;
-                training.setCurrentAction("Attack Left");
+                training.setCurrentAction("Block Right");
                 break;
         }
 

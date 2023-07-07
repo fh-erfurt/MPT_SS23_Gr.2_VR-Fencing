@@ -24,12 +24,6 @@ public abstract class Subject : MonoBehaviour {
         });
     }
 
-    // for sword
-    protected void NotifySwordObservers(TrainingStateManager.swordSide swordSide) {
-        _observers.ForEach((_observer) => {
-            _observer.OnNotify(swordSide);
-        });
-    }
 
     // update points on ui
     protected void NotifyUIPointsObservers(int totalPoints) {

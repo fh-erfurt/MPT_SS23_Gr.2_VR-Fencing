@@ -374,6 +374,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f41a7fd995f194d49914dbcc7f330487, type: 2}
   - {fileID: 11400000, guid: 367c6c6693c18a743b59a68e51cd1858, type: 2}
   - {fileID: 11400000, guid: 3965337a40d25624b8f1b7f262ac34d3, type: 2}
+  animator: {fileID: 704194028}
 --- !u!1 &118927479
 GameObject:
   m_ObjectHideFlags: 0
@@ -2820,8 +2821,6 @@ MonoBehaviour:
   _repeatStateSphereSubject: {fileID: 5206561322652684373}
   _skipInstructionSphereSubject: {fileID: 58126020}
   _dontSkipInstructionSphereSubject: {fileID: 873111268}
-  _strongSide: {fileID: 377592773}
-  _weakSide: {fileID: 255636355}
 --- !u!1001 &867884359
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,13 +1,23 @@
 using UnityEngine;
 
 
-public class Strong_side_hit : Subject {
+public class Strong_side_hit : MonoBehaviour {
+
+    private TrainingStateManager trainingStateManager;
+
+    private void Start() {
+        if (trainingStateManager == null) {
+            trainingStateManager = TrainingStateManager.instance;
+        }
+    }
+
 
     private void OnTriggerEnter(Collider other) {
 
         if (other.CompareTag("enemy_fence")) {
             print("Strong side got hit!");
-            NotifySwordObservers(TrainingStateManager.swordSide.strong);
+            trainingStateManager.hitDetected(TrainingStateManager.swordSide.strong);
+            // NotifySwordObservers(TrainingStateManager.swordSide.strong);
         }
     }
 }
