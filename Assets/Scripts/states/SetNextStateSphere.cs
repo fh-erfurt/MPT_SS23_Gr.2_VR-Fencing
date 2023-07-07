@@ -14,12 +14,11 @@ public class SetNextStateSphere : Subject {
 
     [Header("Selection Sphere Default Color")]
     public Color defaultColor         = new Color(1f, 1f, 1f, 0.1f);
-    public Color defaultEmissionColor = new  Color(0.54f, 0.54f, 0.54f);
+    public Color defaultEmissionColor = new Color(0.54f, 0.54f, 0.54f);
 
     [Header("Selection Sphere Selection Color")]
     public Color selectionColor         = new Color(0f, 1f, 0f, 0.1f);
     public Color selectionEmissionColor = new Color(0f, 0.55f, 0f);
-
 
     private Material meshMaterial;
 

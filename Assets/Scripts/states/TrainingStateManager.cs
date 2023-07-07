@@ -36,6 +36,11 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
     [Header("UI")]
     public TMP_Text currentActionText;
 
+    [Header("Manager")]
+    public posManager posManagerRightBlock;
+    public posManager posManagerLeftBlock;
+    private AudioManager audioManager;
+
 
     // Observer-pattern
     [Header("Sphere Subjects")]
@@ -45,13 +50,11 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
     [SerializeField] Subject _dontSkipInstructionSphereSubject;
 
 
-    // Manager
-    private AudioManager audioManager;
-
     // Enums
     public enum nextStep { not_set, next_state, repeat_state, skip_instructions };
 
-    public enum swordSide { weak, strong };
+    public enum swordSide { none, weak, strong };
+
 
 
     // Singleton
@@ -66,44 +69,41 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
 
 
     private void Start() {
-        // Starting state
+        // starting state
         currentState = StartState;
-        // Context to this script
+        // context to this script
         currentState.EnterState(this, nextStateSpheres, trainerPositionSpheres, skipInstructionsSpheres, trainerAnimator);
 
-        // Get main trainer position
+        // get main trainer position
         trainerPositionMain = trainerPositionSpheres.transform.Find("Trainer_Position_Main").transform.position;
 
-        // Disable selection spheres
-        HideSelectionSpheres();
+        // disable selection spheres
+        hideSelectionSpheres();
 
         audioManager = AudioManager.instance;
 
-        // Give each state their needed audios
-        StartState.SetAudios      (audioManager, introAudiosSO);
-        InstructionState.SetAudios(audioManager, instructionAudiosSO);
-        DeflectState.SetAudios    (audioManager, deflectingAudiosSO);
-        EndState.SetAudios        (audioManager, endAudiosSO);
+        // give each state their needed audios
+        setStateAudios();
 
-        // Add itself to the subjects list of observers
-        _nextStateSphereSubject.AddObserver(this);
-        _repeatStateSphereSubject.AddObserver(this);
-        _skipInstructionSphereSubject.AddObserver(this);
-        _dontSkipInstructionSphereSubject.AddObserver(this);
+        // add itself to the subjects list of observers
+        subscribeToSubjects();
+
+        posManagerRightBlock.hideBlockPositions();
+        posManagerLeftBlock.hideBlockPositions();
     }
 
 
     //
-    // Update for each state
+    // Update for active state
     private void Update() {
-        // Call UpdateState on the current state on every frame
+        // call UpdateState on the current state on every frame
         currentState.UpdateState(this);
     }
 
 
 
     //
-    // Switch to a new state
+    // Switch state-machine into a new state
     public void SwitchState(TrainingBaseState newState) {
         currentState = newState;
         newState.EnterState(this, nextStateSpheres, trainerPositionSpheres, skipInstructionsSpheres, trainerAnimator);
@@ -111,8 +111,24 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
 
 
     //
+    // Setter
+    private void subscribeToSubjects() {
+        _nextStateSphereSubject.AddObserver(this);
+        _repeatStateSphereSubject.AddObserver(this);
+        _skipInstructionSphereSubject.AddObserver(this);
+        _dontSkipInstructionSphereSubject.AddObserver(this);
+    }
+
+    private void setStateAudios() {
+        StartState.SetAudios      (audioManager, introAudiosSO);
+        InstructionState.SetAudios(audioManager, instructionAudiosSO);
+        DeflectState.SetAudios    (audioManager, deflectingAudiosSO);
+        EndState.SetAudios        (audioManager, endAudiosSO);
+    }
+
+    //
     // Selection Spheres
-    public void HideSelectionSpheres() {
+    public void hideSelectionSpheres() {
         nextStateSpheres.SetActive(false);
         trainerPositionSpheres.SetActive(false);
         skipInstructionsSpheres.SetActive(false);
@@ -121,15 +137,15 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
 
     //
     // Called from UI-Elements etc.
-    public void SkipInstructions() {
+    public void skipInstructions() {
         SwitchState(DeflectState);
     }
 
-    public void ContinueToNextState() {
+    public void continueToNextState() {
         currentState.SetNextStep(TrainingStateManager.nextStep.next_state);
     }
 
-    public void RepeatState() {
+    public void repeatState() {
         currentState.SetNextStep(TrainingStateManager.nextStep.repeat_state);
     }
 
@@ -166,21 +182,23 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
     public void OnNotify(TrainingStateManager.nextStep nextStep) {
 
         if (nextStep == TrainingStateManager.nextStep.next_state) {
-            ContinueToNextState();
+            continueToNextState();
             return;
         }
 
         if (nextStep == TrainingStateManager.nextStep.repeat_state) {
-            RepeatState();
+            repeatState();
             return;
         }
 
         if (nextStep == TrainingStateManager.nextStep.skip_instructions) {
-            SkipInstructions();
+            skipInstructions();
             return;
         }
     }
 
+
+    //
     // Sword
     public void hitDetected(TrainingStateManager.swordSide swordSide) {
         if (currentState == DeflectState) {
@@ -188,10 +206,16 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
         }
     }
 
-    public void OnNotify(TrainingStateManager.swordSide swordSide) {}
 
-    // not important
-    public void OnNotify(int i) {}
+    //
+    // Position manager
+    public posManager getRightBlockPositionManager() {
+        return posManagerRightBlock;
+    }
+
+    public posManager getLeftBlockPositionManager() {
+        return posManagerLeftBlock;
+    }
 
 
     //
@@ -199,4 +223,9 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
     public void hideTable() {
         table.SetActive(false);
     }
+
+
+    // not important
+    public void OnNotify(TrainingStateManager.swordSide s) {}
+    public void OnNotify(int i) {}
 }

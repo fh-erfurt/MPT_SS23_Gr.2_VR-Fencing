@@ -39,7 +39,7 @@ public class TrainingStartState : TrainingBaseState {
         }
         points.ResetPoints();
 
-        training.HideSelectionSpheres();
+        training.hideSelectionSpheres();
 
         training.setCurrentAction("Introduction");
 
