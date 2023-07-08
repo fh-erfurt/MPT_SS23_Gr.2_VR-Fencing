@@ -2161,6 +2161,17 @@ CapsuleCollider:
   m_Height: 0.25
   m_Direction: 1
   m_Center: {x: 0, y: -0.07, z: 0}
+--- !u!114 &538479693 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4396704249795282506, guid: 2f4052c1284b31b4eb7a3aa3390dae46, type: 3}
+  m_PrefabInstance: {fileID: 8074490565585764583}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &550283001
 GameObject:
   m_ObjectHideFlags: 0
@@ -3391,6 +3402,8 @@ MonoBehaviour:
   skipInstructionsSpheres: {fileID: 1203896330}
   nextStateSpheres: {fileID: 1207199198}
   trainerPositionSpheres: {fileID: 937810631}
+  nextStateSphereText: {fileID: 538479693}
+  repeatStateSphereText: {fileID: 1001873219}
   table: {fileID: 1638274241}
   currentActionText: {fileID: 1864966970}
   totalScoreCanvas: {fileID: 1937848224}
@@ -3806,6 +3819,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1001873219 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8432534511655064197, guid: a6293eee932b753428aeb59f7b9e3afb, type: 3}
+  m_PrefabInstance: {fileID: 8901075895018522268}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1045978483 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8030197382645210610, guid: d27ac1ffd4cdd7c40a39dcfa6012355c, type: 3}
@@ -7855,6 +7879,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: NextSphere
       objectReference: {fileID: 0}
+    - target: {fileID: 4396704249795282506, guid: 2f4052c1284b31b4eb7a3aa3390dae46, type: 3}
+      propertyPath: m_text
+      value: Point for\nnext step
+      objectReference: {fileID: 0}
+    - target: {fileID: 7159767005644336204, guid: 2f4052c1284b31b4eb7a3aa3390dae46, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 8918755637694611974, guid: 2f4052c1284b31b4eb7a3aa3390dae46, type: 3}
       propertyPath: defaultColor.a
       value: 0.39215687
@@ -7936,6 +7968,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1207199199}
     m_Modifications:
+    - target: {fileID: 3125146734719514755, guid: a6293eee932b753428aeb59f7b9e3afb, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 3731112110095029961, guid: a6293eee932b753428aeb59f7b9e3afb, type: 3}
       propertyPath: nextStepOnActivation
       value: 2
@@ -7991,6 +8027,10 @@ PrefabInstance:
     - target: {fileID: 7849398817486622540, guid: a6293eee932b753428aeb59f7b9e3afb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8432534511655064197, guid: a6293eee932b753428aeb59f7b9e3afb, type: 3}
+      propertyPath: m_text
+      value: Point to\nrepeat Instructions
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

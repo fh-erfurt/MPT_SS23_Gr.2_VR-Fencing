@@ -4,8 +4,8 @@ using UnityEngine;
 public class TrainingDeflectState : TrainingBaseState {
 
     // Training schedule
-    private string[] trainingPlan = {   //BLOCK_R, BLOCK_L, BLOCK_M,
-                                        //BLOCK_L, BLOCK_M, BLOCK_R,
+    private string[] trainingPlan = {   BLOCK_R, BLOCK_L, BLOCK_M,
+                                        BLOCK_L, BLOCK_M, BLOCK_R,
                                         BLOCK_R, BLOCK_M, BLOCK_L };
     private int trainingPlanIndex = 0;
 

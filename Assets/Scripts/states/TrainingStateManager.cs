@@ -31,6 +31,10 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
     public GameObject nextStateSpheres;
     public GameObject trainerPositionSpheres;
 
+    [Header("Selection Spheres Texts")]
+    public TMP_Text nextStateSphereText;
+    public TMP_Text repeatStateSphereText;
+
     [Header("Table")]
     public GameObject table;
 
@@ -151,6 +155,15 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
         nextStateSpheres.SetActive(false);
         trainerPositionSpheres.SetActive(false);
         skipInstructionsSpheres.SetActive(false);
+    }
+
+
+    public void setNextStateSphereText(string text = "Point for\nnext step") {
+        nextStateSphereText.text = text;
+    }
+
+    public void setRepeatStateSphereText(string text = "Point to\nrepeat") {
+        repeatStateSphereText.text = text;
     }
 
 

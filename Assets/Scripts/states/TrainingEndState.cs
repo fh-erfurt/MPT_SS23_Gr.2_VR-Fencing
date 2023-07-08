@@ -73,6 +73,8 @@ public class TrainingEndState : TrainingBaseState {
         }
 
         training.setTotalScoreCanvasActive();
+        training.setRepeatStateSphereText("Repeat Training");
+        training.setNextStateSphereText("Return to\nLevel Select");
         nextStateSpheres.SetActive(true);
     }
 

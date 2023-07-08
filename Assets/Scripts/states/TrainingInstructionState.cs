@@ -74,6 +74,8 @@ public class TrainingInstructionState : TrainingBaseState {
         if (isLastAudioClipPlayed()) {
             // wait for audio and animation to finish
             if (!isAudioStillPlaying() && !isAnimationStillPlaying()) {
+                training.setNextStateSphereText("Point to\n continue to Training");
+                training.setRepeatStateSphereText("Point to\nrepeat Instructions");
                 nextStateSpheres.SetActive(true);
                 checkNextState(training);
             }
