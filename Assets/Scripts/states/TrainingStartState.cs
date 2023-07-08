@@ -33,10 +33,12 @@ public class TrainingStartState : TrainingBaseState {
                                     Animator trainerAnimator) {
         resetState();
 
-        // reset points on start
+        training.setTotalScoreCanvasInactive();
+
         if (points == null) {
             points = Points.instance;
         }
+        // reset points on start
         points.ResetPoints();
 
         training.hideSelectionSpheres();

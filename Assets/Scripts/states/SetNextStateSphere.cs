@@ -24,7 +24,7 @@ public class SetNextStateSphere : Subject {
 
 
 
-    private void Start() {
+    private void Awake() {
         selectionTimerSphere = transform.GetChild(0);
 
         meshMaterial = gameObject.GetComponent<Renderer>().material;
@@ -56,6 +56,11 @@ public class SetNextStateSphere : Subject {
             NotifyObservers(nextStepOnActivation);
             ResetTimer();
         }
+    }
+
+
+    private void OnEnable() {
+        ResetTimer();
     }
 
 

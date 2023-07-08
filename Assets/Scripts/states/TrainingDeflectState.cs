@@ -4,9 +4,9 @@ using UnityEngine;
 public class TrainingDeflectState : TrainingBaseState {
 
     // Training schedule
-    private string[] trainingPlan = {   BLOCK_R, BLOCK_R,
-                                        BLOCK_L, BLOCK_L,
-                                        BLOCK_R, BLOCK_L };
+    private string[] trainingPlan = {   BLOCK_R, BLOCK_L, BLOCK_M,
+                                        BLOCK_L, BLOCK_M, BLOCK_R,
+                                        BLOCK_R, BLOCK_M, BLOCK_L };
     private int trainingPlanIndex = 0;
 
     // State of the state
@@ -17,12 +17,14 @@ public class TrainingDeflectState : TrainingBaseState {
     private const string IDLE = "Idle";
     private const string BLOCK_R = "Attack_L";
     private const string BLOCK_L = "Attack_R";
+    private const string BLOCK_M = "Attack_M";
     private const string BLOCK_SUCCESS_R = "Block_R_Success";
     private const string BLOCK_SUCCESS_L = "Block_L_Success";
+    private const string BLOCK_SUCCESS_M = "Block_M_Success";
 
     // Animation
     private string[] animationsGeneral = { IDLE };
-    private string[] animationsAttack  = { BLOCK_L, BLOCK_R };
+    private string[] animationsAttack  = { BLOCK_L, BLOCK_R, BLOCK_M };
     private bool wasAnimationPlayed = false;
     private string currentAnimationState;
 
@@ -52,6 +54,11 @@ public class TrainingDeflectState : TrainingBaseState {
 
     public override void EnterState(TrainingStateManager training, GameObject nextStateSpheres, GameObject trainerPositionSpheres,
                                     GameObject skipInstructionSpheres, Animator trainerAnimator) {
+
+        if (animationsAttack.Length != audioClipsAttack.Length) {
+            Debug.LogError("'animationsAttack' and 'audioClipsAttack' must have an equal amount of elements.");
+        }
+
         resetState(training);
 
         // hide spheres which change the trainer position
@@ -81,12 +88,10 @@ public class TrainingDeflectState : TrainingBaseState {
 
         // check if block was in the perfect zone or the accepted area
         if (isBlockingWindowActive && !acceptedBlock && isSwordInPerfectPosition()) {
-            Debug.LogWarning("perfectBlock");
             perfectBlock = true;
         }
 
         if (isBlockingWindowActive && !perfectBlock && isSwordInAcceptedArea()) {
-            Debug.LogWarning("acceptedBlock");
             acceptedBlock = true;
         }
 
@@ -140,12 +145,17 @@ public class TrainingDeflectState : TrainingBaseState {
             case BLOCK_L:
                 audioAndAnimationIndex = 0;
                 currentPosManager = training.getLeftBlockPositionManager();
-                training.setCurrentAction("Block Left"); // UI
+                training.setCurrentAction($"Block Left ({trainingPlanIndex+1}/{trainingPlan.Length})"); // UI
                 break;
             case BLOCK_R:
                 audioAndAnimationIndex = 1;
                 currentPosManager = training.getRightBlockPositionManager();
-                training.setCurrentAction("Block Right"); // UI
+                training.setCurrentAction($"Block Right ({trainingPlanIndex+1}/{trainingPlan.Length})"); // UI
+                break;
+            case BLOCK_M:
+                audioAndAnimationIndex = 2;
+                currentPosManager = training.getMiddleBlockPositionManager();
+                training.setCurrentAction($"Block Middle ({trainingPlanIndex+1}/{trainingPlan.Length})"); // UI
                 break;
         }
 
@@ -170,7 +180,7 @@ public class TrainingDeflectState : TrainingBaseState {
 
 
     //
-    // Attacks / Blocks
+    // Successful block
     private void successfullyBlocked() {
 
         pointsGained = true;
@@ -180,9 +190,12 @@ public class TrainingDeflectState : TrainingBaseState {
 
         if (trainingPlan[trainingPlanIndex] == BLOCK_L) playSuccessAnimationRight();
         if (trainingPlan[trainingPlanIndex] == BLOCK_R) playSuccessAnimationLeft();
+        if (trainingPlan[trainingPlanIndex] == BLOCK_M) playSuccessAnimationMiddle();
     }
 
 
+    //
+    // Next attack
     private void prepareNextAttack(TrainingStateManager training) {
 
         training.resetTrainerPosition();
@@ -196,6 +209,8 @@ public class TrainingDeflectState : TrainingBaseState {
 
         playSuccessSound();
 
+        training.setTrainerSwordColorBlack();
+
         currentPosManager.hideBlockPositions();
 
         trainingPlanIndex++;
@@ -205,12 +220,6 @@ public class TrainingDeflectState : TrainingBaseState {
         resetChecks();
     }
 
-
-    public void setIsBlockingWindowActive(bool isActive) {
-        isBlockingWindowActive = isActive;
-    }
-
-
     private void repeatAttack() {
         points.SubtractPoints(10);
         playFailSound();
@@ -218,12 +227,18 @@ public class TrainingDeflectState : TrainingBaseState {
     }
 
 
+    //
+    // Sword
     private bool isSwordInPerfectPosition() {
         return currentPosManager && currentPosManager.isSwordInPerfectPosition();
     }
 
     private bool isSwordInAcceptedArea() {
         return currentPosManager && currentPosManager.isSwordInAcceptedArea();
+    }
+
+    public void setIsBlockingWindowActive(bool isActive) {
+        isBlockingWindowActive = isActive;
     }
 
 
@@ -269,25 +284,25 @@ public class TrainingDeflectState : TrainingBaseState {
         audioManager.playClipAtTrainerPosition(audioClip);
     }
 
-    private bool isAudioStillPlaying() {
-        return audioManager.isAudioStillPlaying();
-    }
-
     private void playStartAudio() {
         playSpecificAudio(audioClipsGeneral[0]);
     }
 
     private void playSuccessSound() {
-        playSpecificAudio(audioClipsSuccess[Random.Range(0, audioClipsSuccess.Length-1)]);
+        playSpecificAudio(audioClipsSuccess[Random.Range(0, audioClipsSuccess.Length)]);
     }
 
     private void playFailSound() {
         playSpecificAudio(audioClipsFailure[0]);
     }
 
+    private bool isAudioStillPlaying() {
+        return audioManager.isAudioStillPlaying();
+    }
+
 
     //
-    // Animation
+    // Animation State
     private void changeAnimationState(string newState, bool normalizedTime = false) {
         // stop the same animation from interrupting itself
         if (currentAnimationState == newState) {
@@ -300,16 +315,6 @@ public class TrainingDeflectState : TrainingBaseState {
         currentAnimationState = newState;
     }
 
-
-    private void playSuccessAnimationLeft() {
-        changeAnimationState(BLOCK_SUCCESS_L, true);
-    }
-
-    private void playSuccessAnimationRight() {
-        changeAnimationState(BLOCK_SUCCESS_R, true);
-    }
-
-
     private bool isAnimationStillPlaying() {
 
         if (isCurrentStateIdle() && !animator.IsInTransition(0)) {
@@ -320,5 +325,20 @@ public class TrainingDeflectState : TrainingBaseState {
 
     private bool isCurrentStateIdle() {
         return animator.GetCurrentAnimatorStateInfo(0).IsName(IDLE);
+    }
+
+
+    //
+    // Animation Success
+    private void playSuccessAnimationLeft() {
+        changeAnimationState(BLOCK_SUCCESS_L, true);
+    }
+
+    private void playSuccessAnimationRight() {
+        changeAnimationState(BLOCK_SUCCESS_R, true);
+    }
+
+    private void playSuccessAnimationMiddle() {
+        changeAnimationState(BLOCK_SUCCESS_M, true);
     }
 }

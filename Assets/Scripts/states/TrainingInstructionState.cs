@@ -7,9 +7,10 @@ public class TrainingInstructionState : TrainingBaseState {
     private const string IDLE = "Idle";
     private const string DEFLECT_R = "Deflect_R_TOP";
     private const string DEFLECT_L = "Deflect_L_TOP";
+    private const string DEFLECT_M = "Deflect_M";
 
     // Animation
-    private string[] animationOrder = { IDLE, DEFLECT_R, DEFLECT_L, IDLE };
+    private string[] animationOrder = { IDLE, DEFLECT_R, DEFLECT_L, DEFLECT_M, IDLE };
     private int currentAnimation = 0;
     private bool wasAnimationPlayed = false;
     private string currentAnimationState;
@@ -73,6 +74,8 @@ public class TrainingInstructionState : TrainingBaseState {
         if (isLastAudioClipPlayed()) {
             // wait for audio and animation to finish
             if (!isAudioStillPlaying() && !isAnimationStillPlaying()) {
+                training.setNextStateSphereText("Point to\n continue to Training");
+                training.setRepeatStateSphereText("Point to\nrepeat Instructions");
                 nextStateSpheres.SetActive(true);
                 checkNextState(training);
             }
@@ -174,6 +177,9 @@ public class TrainingInstructionState : TrainingBaseState {
                 break;
             case 2:
                 ChangeAnimationState(DEFLECT_L);
+                break;
+            case 3:
+                ChangeAnimationState(DEFLECT_M);
                 break;
             default:
                 ChangeAnimationState(IDLE);

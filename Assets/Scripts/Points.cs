@@ -3,8 +3,8 @@
 
 public class Points : Subject {
 
-    private static int totalPoints;
-    public int startPoints = 0;
+    private int totalPoints;
+    private int startPoints = 0;
 
 
     // Singleton
@@ -35,7 +35,6 @@ public class Points : Subject {
 
     public void AddPoints(int amount) {
         totalPoints += amount;
-        Debug.Log("Points added |Total points: " + totalPoints);
         NotifyUIPointsObservers(totalPoints);
     }
 
@@ -45,7 +44,7 @@ public class Points : Subject {
         if (totalPoints < 0) {
             totalPoints = 0;
         }
-        Debug.Log("Points subtracted | Total points: " + totalPoints);
+
         NotifyUIPointsObservers(totalPoints);
     }
 }
