@@ -13,23 +13,23 @@ public class posOfSword : MonoBehaviour {
 
     private Material meshMaterial;
 
-    private bool isSwordOnCorrectPosition;
+    private bool isSwordInPerfectPosition;
 
 
     private void Start() {
-        isSwordOnCorrectPosition = false;
+        isSwordInPerfectPosition = false;
 
         meshMaterial = gameObject.GetComponent<Renderer>().material;
-        SetDefaultColor();
+        setDefaultColor();
     }
 
 
     private void OnTriggerEnter(Collider collider) {
 
         if (collider.gameObject.CompareTag("Sword")) {
-            Debug.Log("Sword entered correct position!");
-            isSwordOnCorrectPosition = true;
-            SetSelectionColor();
+            Debug.Log("Sword entered perfect position!");
+            isSwordInPerfectPosition = true;
+            setSelectionColor();
         }
     }
 
@@ -37,39 +37,39 @@ public class posOfSword : MonoBehaviour {
     private void OnTriggerExit(Collider collider) {
 
         if (collider.gameObject.CompareTag("Sword")) {
-            Debug.Log("Sword left correct position!");
-            isSwordOnCorrectPosition = false;
-            SetDefaultColor();
+            Debug.Log("Sword left perfect position!");
+            isSwordInPerfectPosition = false;
+            setDefaultColor();
         }
     }
 
 
-    public bool IsSwordOnCorrectPosition() {
-        return isSwordOnCorrectPosition;
+    public bool IsSwordInPerfectPosition() {
+        return isSwordInPerfectPosition;
     }
 
 
-    public void resetIsHandOnCorrectPosition() {
-        isSwordOnCorrectPosition = false;
+    public void resetIsSwordInPerfectPosition() {
+        isSwordInPerfectPosition = false;
     }
 
 
     //
     // Colors
-    private void SetDefaultColor() {
+    private void setDefaultColor() {
         meshMaterial.SetColor("_Color", defaultColor);
         meshMaterial.SetColor("_EmissionColor", defaultEmissionColor);
     }
 
 
-    private void SetSelectionColor() {
+    private void setSelectionColor() {
         meshMaterial.SetColor("_Color", selectionColor);
         meshMaterial.SetColor("_EmissionColor", selectionEmissionColor * Mathf.LinearToGammaSpace(10f));
     }
 
 
     private void OnDisable() {
-        SetDefaultColor();
-        isSwordOnCorrectPosition = false;
+        setDefaultColor();
+        isSwordInPerfectPosition = false;
     }
 }

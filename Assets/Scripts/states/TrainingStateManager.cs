@@ -126,6 +126,7 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
         EndState.SetAudios        (audioManager, endAudiosSO);
     }
 
+
     //
     // Selection Spheres
     public void hideSelectionSpheres() {
@@ -152,6 +153,11 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
 
     public void setCurrentAction(string action) {
         currentActionText.text = "Current: " + action;
+    }
+
+
+    public TrainingDeflectState getDeflectState() {
+        return DeflectState;
     }
 
 
@@ -194,15 +200,6 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
         if (nextStep == TrainingStateManager.nextStep.skip_instructions) {
             skipInstructions();
             return;
-        }
-    }
-
-
-    //
-    // Sword
-    public void hitDetected(TrainingStateManager.swordSide swordSide) {
-        if (currentState == DeflectState) {
-            DeflectState.detectHit(swordSide);
         }
     }
 

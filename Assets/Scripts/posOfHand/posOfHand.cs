@@ -14,14 +14,14 @@ public class posOfHand : MonoBehaviour {
     private Material meshMaterial;
 
 
-    private bool isHandOnCorrectPosition;
+    private bool isHandInPerfectPosition;
 
 
     private void Start() {
-        isHandOnCorrectPosition = false;
+        isHandInPerfectPosition = false;
 
         meshMaterial = gameObject.GetComponent<Renderer>().material;
-        SetDefaultColor();
+        setDefaultColor();
     }
 
 
@@ -30,9 +30,9 @@ public class posOfHand : MonoBehaviour {
     private void OnTriggerEnter(Collider collider) {
 
         if (collider.gameObject.CompareTag("hand")) {
-            Debug.Log("Hand entered correct position!");
-            isHandOnCorrectPosition = true;
-            SetSelectionColor();
+            Debug.Log("Hand entered perfect position!");
+            isHandInPerfectPosition = true;
+            setSelectionColor();
         }
     }
 
@@ -40,41 +40,41 @@ public class posOfHand : MonoBehaviour {
     private void OnTriggerExit(Collider collider) {
 
         if (collider.gameObject.CompareTag("hand")) {
-            Debug.Log("Hand left correct position!");
-            isHandOnCorrectPosition = false;
-            SetDefaultColor();
+            Debug.Log("Hand left perfect position!");
+            isHandInPerfectPosition = false;
+            setDefaultColor();
         }
     }
 
 
     //
     // Position
-    public bool IsHandOnCorrectPosition() {
-        return isHandOnCorrectPosition;
+    public bool IsHandInPerfectPosition() {
+        return isHandInPerfectPosition;
     }
 
 
-    public void resetIsHandOnCorrectPosition() {
-        isHandOnCorrectPosition = false;
+    public void resetIsHandInPerfectPosition() {
+        isHandInPerfectPosition = false;
     }
 
 
     //
     // Colors
-    private void SetDefaultColor() {
+    private void setDefaultColor() {
         meshMaterial.SetColor("_Color", defaultColor);
         meshMaterial.SetColor("_EmissionColor", defaultEmissionColor);
     }
 
 
-    private void SetSelectionColor() {
+    private void setSelectionColor() {
         meshMaterial.SetColor("_Color", selectionColor);
         meshMaterial.SetColor("_EmissionColor", selectionEmissionColor * Mathf.LinearToGammaSpace(10f));
     }
 
 
     private void OnDisable() {
-        SetDefaultColor();
-        isHandOnCorrectPosition = false;
+        setDefaultColor();
+        isHandInPerfectPosition = false;
     }
 }

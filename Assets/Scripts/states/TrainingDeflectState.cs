@@ -38,11 +38,10 @@ public class TrainingDeflectState : TrainingBaseState {
     private Animator animator;
 
     // Sword
-    private bool hitDetected = false;
-    private bool successfulBlock = false;
+    private bool perfectBlock = false;
+    private bool acceptedBlock = false;
     private bool pointsGained = false;
-
-    private TrainingStateManager.swordSide hitSide = TrainingStateManager.swordSide.none;
+    private bool isBlockingWindowActive = false;
 
     private posManager currentPosManager;
 
@@ -80,17 +79,19 @@ public class TrainingDeflectState : TrainingBaseState {
             return;
         }
 
-        // only accept sword hit-detection when sword is in the correct blocking spot
-        if (hitWasDetectedOutsideOfPerfectPosition() && sufficientTimeOnAnimationHasPassed()) {
-            hitSide = TrainingStateManager.swordSide.none;
-            hitDetected = false;
+        // check if block was in the perfect zone or the accepted area
+        if (isBlockingWindowActive && !acceptedBlock && isSwordInPerfectPosition()) {
+            Debug.LogWarning("perfectBlock");
+            perfectBlock = true;
         }
 
-        if (currentPosManager && currentPosManager.perfectPosition() && hitSide != TrainingStateManager.swordSide.none) {
-            successfulBlock = true;
+        if (isBlockingWindowActive && !perfectBlock && isSwordInAcceptedArea()) {
+            Debug.LogWarning("acceptedBlock");
+            acceptedBlock = true;
         }
 
-        if (successfulBlock && !pointsGained) {
+        // successful block if a perfect or accepted block was made
+        if ((perfectBlock || acceptedBlock) && !pointsGained) {
             successfullyBlocked();
             return;
         }
@@ -99,6 +100,7 @@ public class TrainingDeflectState : TrainingBaseState {
         if (isAnimationStillPlaying()) {
             return;
         }
+
 
         // Intro
         if (currentState == state.intro) {
@@ -138,21 +140,20 @@ public class TrainingDeflectState : TrainingBaseState {
             case BLOCK_L:
                 audioAndAnimationIndex = 0;
                 currentPosManager = training.getLeftBlockPositionManager();
-                training.setCurrentAction("Block Left");
+                training.setCurrentAction("Block Left"); // UI
                 break;
             case BLOCK_R:
                 audioAndAnimationIndex = 1;
                 currentPosManager = training.getRightBlockPositionManager();
-                training.setCurrentAction("Block Right");
+                training.setCurrentAction("Block Right"); // UI
                 break;
         }
 
         // play audio once
         if (!wasAudioPlayed) {
-            playSpecificAudio(audioClipsAttack[audioAndAnimationIndex]);
             wasAudioPlayed = true;
-            // break into UpdateState() and wait until audio is finished
-            return;
+            playSpecificAudio(audioClipsAttack[audioAndAnimationIndex]);
+            return; // break into UpdateState() and wait until audio is finished
         };
 
         // play animation once
@@ -160,8 +161,7 @@ public class TrainingDeflectState : TrainingBaseState {
             wasAnimationPlayed = true;
             currentPosManager.setBlockPositionsActive();
             changeAnimationState(animationsAttack[audioAndAnimationIndex]);
-            // break into UpdateState() and wait until animation is finished
-            return;
+            return; // break into UpdateState() and wait until animation is finished
         };
 
         // reset for next trainer attack
@@ -175,15 +175,8 @@ public class TrainingDeflectState : TrainingBaseState {
 
         pointsGained = true;
 
-        // check which side was hit
-        switch (hitSide) {
-            case TrainingStateManager.swordSide.strong:
-                points.AddPoints(100);
-                break;
-            case TrainingStateManager.swordSide.weak:
-                points.AddPoints(50);
-                break;
-        }
+        if (perfectBlock)  points.AddPoints(100);
+        if (acceptedBlock) points.AddPoints(50);
 
         if (trainingPlan[trainingPlanIndex] == BLOCK_L) playSuccessAnimationRight();
         if (trainingPlan[trainingPlanIndex] == BLOCK_R) playSuccessAnimationLeft();
@@ -192,13 +185,11 @@ public class TrainingDeflectState : TrainingBaseState {
 
     private void prepareNextAttack(TrainingStateManager training) {
 
-        Debug.Log("<color=blue>prepare next attack</color>");
         training.resetTrainerPosition();
-
 
         changeAnimationState(IDLE);
 
-        if (!successfulBlock) {
+        if (!perfectBlock && !acceptedBlock) {
             repeatAttack();
             return;
         }
@@ -215,6 +206,11 @@ public class TrainingDeflectState : TrainingBaseState {
     }
 
 
+    public void setIsBlockingWindowActive(bool isActive) {
+        isBlockingWindowActive = isActive;
+    }
+
+
     private void repeatAttack() {
         points.SubtractPoints(10);
         playFailSound();
@@ -222,14 +218,12 @@ public class TrainingDeflectState : TrainingBaseState {
     }
 
 
-    private bool hitWasDetectedOutsideOfPerfectPosition() {
-        return hitDetected && !currentPosManager.perfectPosition();
+    private bool isSwordInPerfectPosition() {
+        return currentPosManager && currentPosManager.isSwordInPerfectPosition();
     }
 
-
-    private bool sufficientTimeOnAnimationHasPassed() {
-        // prevent too early hit detection when trainer is swinging back for an attack
-        return animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.5f;
+    private bool isSwordInAcceptedArea() {
+        return currentPosManager && currentPosManager.isSwordInAcceptedArea();
     }
 
 
@@ -252,9 +246,10 @@ public class TrainingDeflectState : TrainingBaseState {
         wasAudioPlayed = false;
         wasAnimationPlayed = false;
 
-        hitDetected = false;
-        successfulBlock = false;
+        perfectBlock = false;
+        acceptedBlock = false;
         pointsGained = false;
+        isBlockingWindowActive = false;
     }
 
     public override void SetAudios(AudioManager audioManager, TrainerAudioSO trainerAudioSO) {
@@ -325,20 +320,5 @@ public class TrainingDeflectState : TrainingBaseState {
 
     private bool isCurrentStateIdle() {
         return animator.GetCurrentAnimatorStateInfo(0).IsName(IDLE);
-    }
-
-
-    //
-    // Sword Hits
-    public void detectHit(TrainingStateManager.swordSide swordSide) {
-
-        // allow only one hit-detection per attack
-        if (hitDetected) {
-            return;
-        }
-
-        hitDetected = true;
-
-        hitSide = swordSide;
     }
 }

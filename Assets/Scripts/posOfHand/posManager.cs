@@ -3,28 +3,31 @@ using UnityEngine;
 
 public class posManager : MonoBehaviour {
 
+    [Header("Parent of all positions")]
     public GameObject positions;
 
+    [Header("Perfect Position")]
     public posOfSword swordPosition;
     public posOfHand handPosition;
 
+    [Header("Accepted Position")]
+    public posInAcceptedArea acceptedArea;
 
-    private void Update() {
 
-        // if (swordPosition.IsSwordOnCorrectPosition() && handPosition.IsHandOnCorrectPosition()) {
-        //     Debug.Log("right position for blocking!");
-        // }
+    public bool isSwordInPerfectPosition() {
+        return swordPosition.IsSwordInPerfectPosition() && handPosition.IsHandInPerfectPosition();
     }
 
 
-    public bool perfectPosition() {
-        return swordPosition.IsSwordOnCorrectPosition() && handPosition.IsHandOnCorrectPosition();
+    public bool isSwordInAcceptedArea() {
+        return acceptedArea.isSwordInAcceptedPosition();
     }
 
 
     public void resetCorrectStates() {
-        swordPosition.resetIsHandOnCorrectPosition();
-        handPosition.resetIsHandOnCorrectPosition();
+        swordPosition.resetIsSwordInPerfectPosition();
+        handPosition.resetIsHandInPerfectPosition();
+        acceptedArea.resetIsSwordInAcceptedPosition();
     }
 
 

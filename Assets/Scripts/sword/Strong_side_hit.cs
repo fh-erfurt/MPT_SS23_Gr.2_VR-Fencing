@@ -16,8 +16,7 @@ public class Strong_side_hit : MonoBehaviour {
 
         if (other.CompareTag("enemy_fence")) {
             print("Strong side got hit!");
-            trainingStateManager.hitDetected(TrainingStateManager.swordSide.strong);
-            // NotifySwordObservers(TrainingStateManager.swordSide.strong);
+            // trainingStateManager.hitDetected(TrainingStateManager.swordSide.strong);
         }
     }
 }
