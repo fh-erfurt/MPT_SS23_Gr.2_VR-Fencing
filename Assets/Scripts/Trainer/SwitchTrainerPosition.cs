@@ -31,7 +31,7 @@ public class SwitchTrainerPosition : MonoBehaviour {
 
 
 
-    private void Start() {
+    private void Awake() {
         trainerPosition = transform.parent;
 
         selectionTimerSphere = transform.GetChild(0);
@@ -79,6 +79,11 @@ public class SwitchTrainerPosition : MonoBehaviour {
             positionWasSwitched = true;
             ResetTimer();
         }
+    }
+
+
+    private void OnEnable() {
+        ResetTimer();
     }
 
 

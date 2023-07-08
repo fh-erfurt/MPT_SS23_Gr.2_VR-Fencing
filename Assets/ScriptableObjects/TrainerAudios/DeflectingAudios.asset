@@ -17,6 +17,7 @@ MonoBehaviour:
   attackClips:
   - {fileID: 8300000, guid: 44aa4f3d83be97941bc59796127b60ff, type: 3}
   - {fileID: 8300000, guid: 1eaa410dbc5f1f94bacca1923e19b302, type: 3}
+  - {fileID: 8300000, guid: 26b4ad12532ef86419d9c93b1b9d69bc, type: 3}
   failureClips:
   - {fileID: 8300000, guid: cf40da1238d6702408fdd7c81e7de1ea, type: 3}
   complimentClips:

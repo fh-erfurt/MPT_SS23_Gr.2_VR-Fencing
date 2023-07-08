@@ -11,7 +11,7 @@ public class TrainingEndState : TrainingBaseState {
     private bool wasAudioPlayed = false;
 
     // Timer
-    private float delayBeforeAudioStarts = 2f;
+    private float delayBeforeAudioStarts = 1f;
     private float currentTimer = 0f;
 
     // Selection spheres
@@ -34,12 +34,17 @@ public class TrainingEndState : TrainingBaseState {
                                     GameObject skipInstructionSpheres,
                                     Animator trainerAnimator) {
         resetState();
+
         training.hideSelectionSpheres();
+
         this.nextStateSpheres = nextStateSpheres;
+
         animator = trainerAnimator;
     }
 
 
+    //
+    // Called once per frame from TrainingStateManager
     public override void UpdateState(TrainingStateManager training) {
 
         // to level select
@@ -67,6 +72,7 @@ public class TrainingEndState : TrainingBaseState {
             wasAudioPlayed = true;
         }
 
+        training.setTotalScoreCanvasActive();
         nextStateSpheres.SetActive(true);
     }
 

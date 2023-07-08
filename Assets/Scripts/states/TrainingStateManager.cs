@@ -23,6 +23,7 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
     [Header("Trainer")]
     public Transform trainer;
     public Animator trainerAnimator;
+    public Material trainerSwordBladeMaterial;
     private Vector3 trainerPositionMain;
 
     [Header("Selection Spheres")]
@@ -35,10 +36,14 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
 
     [Header("UI")]
     public TMP_Text currentActionText;
+    public GameObject totalScoreCanvas;
+    public TMP_Text totalScoreText;
 
     [Header("Manager")]
     public posManager posManagerRightBlock;
     public posManager posManagerLeftBlock;
+    public posManager posManagerMiddleBlock;
+
     private AudioManager audioManager;
 
 
@@ -48,6 +53,9 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
     [SerializeField] Subject _repeatStateSphereSubject;
     [SerializeField] Subject _skipInstructionSphereSubject;
     [SerializeField] Subject _dontSkipInstructionSphereSubject;
+
+    // Points
+    private Points points;
 
 
     // Enums
@@ -69,6 +77,11 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
 
 
     private void Start() {
+
+        if (points == null) {
+            points = Points.instance;
+        }
+
         // starting state
         currentState = StartState;
         // context to this script
@@ -90,6 +103,11 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
 
         posManagerRightBlock.hideBlockPositions();
         posManagerLeftBlock.hideBlockPositions();
+        posManagerMiddleBlock.hideBlockPositions();
+
+        setTrainerSwordColorBlack();
+
+        setTotalScoreCanvasInactive();
     }
 
 
@@ -150,14 +168,21 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
         currentState.SetNextStep(TrainingStateManager.nextStep.repeat_state);
     }
 
-
     public void setCurrentAction(string action) {
         currentActionText.text = "Current: " + action;
     }
 
-
     public TrainingDeflectState getDeflectState() {
         return DeflectState;
+    }
+
+    public void setTotalScoreCanvasActive() {
+        totalScoreText.text = "Total Points: " + points.GetPoints();
+        totalScoreCanvas.SetActive(true);
+    }
+
+    public void setTotalScoreCanvasInactive() {
+        totalScoreCanvas.SetActive(false);
     }
 
 
@@ -212,6 +237,21 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
 
     public posManager getLeftBlockPositionManager() {
         return posManagerLeftBlock;
+    }
+
+    public posManager getMiddleBlockPositionManager() {
+        return posManagerMiddleBlock;
+    }
+
+
+    //
+    // Sword
+    public void setTrainerSwordColorGreen() {
+        trainerSwordBladeMaterial.SetColor("_Color", new Color(0f, 0.7f, 0f));
+    }
+
+    public void setTrainerSwordColorBlack() {
+        trainerSwordBladeMaterial.SetColor("_Color", new Color(0f, 0f, 0f));
     }
 
 
