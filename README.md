@@ -9,15 +9,12 @@ Diese VR-Anwendung soll dem Nutzer die Möglichkeit bieten, die Grundlagen des F
 Trainiert wird mittels eines Fecht-Trainers, welcher gegnen den Nutzer antritt. Die Trainingseinheiten sind  unterteilt in "Blocken", "Angreifen", und "Freier Modus".
 
 1. [Spielablauf](#spielablauf)
-   1.2. ["Blocken"](#blocken)
-   1.3. ["Angreifen"](#angreifen)
-   1.4. ["Freier Modus"](#freiermodus) 
-3. [Verwendete Technologien](#verwendete-technologien)
-4. [Scripte und deren Funktionen](#scripte-und-deren-funktionen)
-5. [GameObjects und deren Funktionen](#gameObjects-und-deren-funktionen)
-6. [Probleme bei der Entwicklung](#probleme-bei-der-entwicklung)
-7. [Zu den Entwicklern](#zu-den-entwicklern)
-8. [Links](#links)
+2. [Verwendete Technologien](#verwendete-technologien)
+3. [Scripte und deren Funktionen](#scripte-und-deren-funktionen)
+4. [GameObjects und deren Funktionen](#gameObjects-und-deren-funktionen)
+5. [Probleme bei der Entwicklung](#probleme-bei-der-entwicklung)
+6. [Zu den Entwicklern](#zu-den-entwicklern)
+7. [Links](#links)
 
 <h2>Einrichten der .apk</h2>
 -offen-
