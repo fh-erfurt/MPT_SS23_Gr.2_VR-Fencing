@@ -34,7 +34,7 @@ public class TrainingEndState : TrainingBaseState {
                                     GameObject skipInstructionSpheres,
                                     Animator trainerAnimator) {
         resetState();
-        training.HideSelectionSpheres();
+        training.hideSelectionSpheres();
         this.nextStateSpheres = nextStateSpheres;
         animator = trainerAnimator;
     }

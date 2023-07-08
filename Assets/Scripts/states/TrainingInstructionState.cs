@@ -52,7 +52,7 @@ public class TrainingInstructionState : TrainingBaseState {
 
         training.setCurrentAction("Instruction");
 
-        training.HideSelectionSpheres();
+        training.hideSelectionSpheres();
         this.nextStateSpheres = nextStateSpheres;
         this.trainerPositionSpheres = trainerPositionSpheres;
         // show spheres to change trainer position

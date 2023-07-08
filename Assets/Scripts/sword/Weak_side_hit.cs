@@ -16,8 +16,7 @@ public class Weak_side_hit : MonoBehaviour {
 
         if (other.CompareTag("enemy_fence")) {
             print("Weak side got hit!");
-            trainingStateManager.hitDetected(TrainingStateManager.swordSide.weak);
-            // NotifySwordObservers(TrainingStateManager.swordSide.weak);
+            // trainingStateManager.hitDetected(TrainingStateManager.swordSide.weak);
         }
     }
 }
