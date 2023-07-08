@@ -41,7 +41,7 @@ Zur Erstellung des Fecht-Simulators wurde die Unity Game Engine in der Version 2
 
 <h2>Verwendete Plug-Ins</h2>
 Folgende Plugins wurden dem Projekt hinzugefügt: -offen- <br>
-Des Weiteren wurde zunächst das PDollar Point-Cloud Gesture Recognizer Plugin (-Link einfügen-) und auch das MiVRy Plugin (-Link einfügen-) verwendet. Diese wurden jedoch im Laufe der Entwicklung verworfen, da beide Probleme mit sich brachten, welche wir in der vorgegebenen Zeit nicht beheben konnten. Mehr dazu bei Punkt "Probleme bei der Entwicklung"<br>
+Des Weiteren wurde zunächst das PDollar Point-Cloud Gesture Recognizer Plugin (-Link einfügen-) und auch das MiVRy Plugin (-Link einfügen-) verwendet. Diese wurden jedoch im Laufe der Entwicklung verworfen, da beide Probleme mit sich brachten, welche wir in der vorgegebenen Zeit nicht beheben konnten. Mehr dazu bei Punkt "Probleme bei der Entwicklung".<br>
 
 <h2>Scripte und deren Funktionen</h2>
 -offen-
