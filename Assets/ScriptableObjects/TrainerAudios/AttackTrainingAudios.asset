@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d5ea7b58fb30654cafcba39f112ef7f, type: 3}
-  m_Name: DeflectingAudios
+  m_Name: AttackTrainingAudios
   m_EditorClassIdentifier: 
   audioClips:
-  - {fileID: 8300000, guid: 40d93b02f24bac243ad0d96b89b12bb9, type: 3}
+  - {fileID: 8300000, guid: a52aff59e6f92de4cade69831269412a, type: 3}
   attackClips:
-  - {fileID: 8300000, guid: 44aa4f3d83be97941bc59796127b60ff, type: 3}
-  - {fileID: 8300000, guid: 1eaa410dbc5f1f94bacca1923e19b302, type: 3}
-  - {fileID: 8300000, guid: 26b4ad12532ef86419d9c93b1b9d69bc, type: 3}
+  - {fileID: 8300000, guid: 40a59fada4dc1884f950e1798082051f, type: 3}
+  - {fileID: 8300000, guid: dc5b138a1362bcc49846478c40e68e93, type: 3}
+  - {fileID: 8300000, guid: 0f39d21348a7b9141b1bd7f0091d6f7b, type: 3}
   failureClips:
   - {fileID: 8300000, guid: cf40da1238d6702408fdd7c81e7de1ea, type: 3}
   complimentClips:
