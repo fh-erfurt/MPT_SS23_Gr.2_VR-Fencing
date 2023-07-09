@@ -45,21 +45,24 @@ Des Weiteren wurde zunächst das PDollar Point-Cloud Gesture Recognizer Plugin (
 
 <h2>Scripte und deren Funktionen</h2>
 -offen-
--Gestenerkennung-
--State-Machine-
+-zb Gestenerkennung-
+-zB State-Machine-
 
 <h2>GameObjects und deren Funktionen</h2>
 -offen-
 
 <h2>Probleme bei der Entwicklung</h2>
 -offen-
+<h5>Allgemein</h5>
+Als allgemeine Schwierigkeit bei der Entwicklung lässt sich vor Allem der momentane Stand der VR-Spieleentwicklung nennen. Es gibt zwar so einige Tutorials, welche einem den Einstieg etwas erleichtern, jedoch anders als bei der Entwicklung anderer Projekte (zB. Webseiten, Apps, etc) gibt es selten Tutorials, welche spezifische Lösungsansätze für die aufkommenden, spezifischen Probleme bieten. Das hat die Entwicklung ungemein erschwert und auch teilweise recht langsam vorangehen lassen, da man sich erst ausgiebigst mit einem spezifischen Problem auseinandersetzen musste und eigene Lösungen dafür herausfinden bzw Alternativen, welche nicht immer zum Erfolg geführt haben. Dadurch hat man natürlich auf der einen Seite ein ganz anderes Verständnis für den Code und die GameObjects welche man schreibt und benutzt; auf der anderen Seite jedoch war die Zeit für dieses Projekt eben sehr knapp bemessen und dadurch hat man einige Features des Spiels leider nicht mehr umsetzen können. <br>
+s
 <h5>Probleme bezüglich der Plugins PDollar & MiVRy</h5>
 Beide Plugins sollten ursprünglich zur Erkennung der Gesten, welcher der Nutzer ausführen muss um die Angriffe korrekt auszuführen bzw. zu blocken, benutzt werden. Das PDollar Plugin wurde recht schnell verworfen als mögliche Umsetzung der Gesten-Erkennung, da der PDollar-Algorithmus, auf welchen das Plugin basiert, in jetzigem Stand des Plugins nur in 2D 
 Gesten erkennen kann. In Anbetracht dessen, dass wir dreidimensionale Gesten erkennen müssen, um ein realistisches Fecht-Gefühl zu vermitteln, bietet sich das Pdollar Plugin also nur begrenzt an. -bilder einfügen- <br>
 Auf der Suche nach besser geeigneten Plugins, welche die Gestenerkennung in VR ermöglichen, sind wir auf das MiVRy Plugin von dem Entwickler-Team MARUI gestoßen. Dieses Plugin ermöglicht es, Gesten in 3D aufzunehmen und zu erkennen. Alles in Allem war dieses Plugin perfekt für unser Vorhaben und auch das Aufnehmen und Abfragen der erforderlichen Gesten hat ausgezeichnet funktioniert. Jedoch gab es bei der Integrierung der erforderlichen Scripte in unseren eigenen Szenen erhebliche Probleme seitens der Controllererkennung. -Bilder einfügen-. Diese Probleme konnten leider bis zum Schluss nicht behoben werden und so sahen wir uns gezwungen, unsere Gesten-Erkennung nochmals neu zu überlegen.
 
 <h2>Zu den Entwicklern</h2>
--offen-
+Die Entwickler dieses studentischen Projektes sind Eric Kruse, Henning Venhorst, Lucas Hengelhaupt und Saskia Wohlers.
 
 <h2>Links</h2>
 zB für Präsentation, Making Of, Bilder, etc (alles was wichtig sein könnte, aber noch nicht oben einzubinden war)
