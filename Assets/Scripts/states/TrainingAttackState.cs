@@ -183,8 +183,6 @@ public class TrainingAttackState : TrainingBaseState {
         pointsGained = true;
 
         points.AddPoints(100);
-
-        changeAnimationState(IDLE);
     }
 
 
