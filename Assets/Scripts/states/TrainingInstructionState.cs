@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 
@@ -5,12 +6,17 @@ public class TrainingInstructionState : TrainingBaseState {
 
     // Animation States
     private const string IDLE = "Idle";
+
     private const string DEFLECT_R = "Deflect_R_TOP";
     private const string DEFLECT_L = "Deflect_L_TOP";
     private const string DEFLECT_M = "Deflect_M";
 
+    private const string ATTACK_R = "Attack_R";
+    private const string ATTACK_L = "Attack_L";
+    private const string ATTACK_M = "Attack_M";
+
     // Animation
-    private string[] animationOrder = { IDLE, DEFLECT_R, DEFLECT_L, DEFLECT_M, IDLE };
+    private string[] animationOrder;
     private int currentAnimation = 0;
     private bool wasAnimationPlayed = false;
     private string currentAnimationState;
@@ -29,6 +35,8 @@ public class TrainingInstructionState : TrainingBaseState {
     // Trainer animator
     private Animator animator;
 
+    private MainManager mainManager;
+
     // Next step
     private TrainingStateManager.nextStep nextStep = TrainingStateManager.nextStep.not_set;
 
@@ -42,6 +50,13 @@ public class TrainingInstructionState : TrainingBaseState {
                                     GameObject trainerPositionSpheres,
                                     GameObject skipInstructionSpheres,
                                     Animator trainerAnimator) {
+
+
+        if (mainManager == null) {
+            mainManager = MainManager.instance;
+        }
+
+        setAnimationOrder();
 
         if (animationOrder.Length != audioClips.Length) {
             Debug.LogError("'animationOrder' and 'audioClips' must have an equal amount of elements.");
@@ -95,7 +110,14 @@ public class TrainingInstructionState : TrainingBaseState {
 
         // play animation after audio is finished
         if (!wasAnimationPlayed) {
-            playAnimation();
+            switch (mainManager.selectedTraining) {
+                case MainManager.trainingType.training_1:
+                    playDeflectAnimation();
+                    break;
+                case MainManager.trainingType.training_2:
+                    playAttackAnimation();
+                    break;
+            }
             return;
         }
 
@@ -127,6 +149,19 @@ public class TrainingInstructionState : TrainingBaseState {
         nextStep = TrainingStateManager.nextStep.not_set;
     }
 
+
+    private void setAnimationOrder() {
+        switch (mainManager.selectedTraining) {
+            case MainManager.trainingType.training_1:
+                animationOrder = new String[] { IDLE, DEFLECT_R, DEFLECT_L, DEFLECT_M, IDLE };
+                break;
+            case MainManager.trainingType.training_2:
+                animationOrder = new String[] { IDLE, ATTACK_R, ATTACK_L, ATTACK_M, IDLE };
+                break;
+        }
+        
+    }
+
     public override void SetAudios(AudioManager audioManager, TrainerAudioSO trainerAudioSO) {
         this.audioManager = audioManager;
         audioClips = trainerAudioSO.audioClips;
@@ -143,7 +178,14 @@ public class TrainingInstructionState : TrainingBaseState {
     private void checkNextState(TrainingStateManager training) {
         // continue to training
         if (nextStep == TrainingStateManager.nextStep.next_state) {
-            training.SwitchState(training.DeflectState);
+            switch (mainManager.selectedTraining) {
+                case MainManager.trainingType.training_1:
+                    training.SwitchState(training.DeflectState);
+                    break;
+                case MainManager.trainingType.training_2:
+                    training.SwitchState(training.AttackState);
+                    break;
+        }
             trainerPositionSpheres.transform.Find("Trainer_Position_Main").transform.GetChild(0).GetComponent<SwitchTrainerPosition>().SetTrainerToPosition();
         }
         // repeat instructions
@@ -170,7 +212,7 @@ public class TrainingInstructionState : TrainingBaseState {
 
     //
     // Animation
-    private void playAnimation() {
+    private void playDeflectAnimation() {
         switch (currentAnimation) {
             case 1:
                 ChangeAnimationState(DEFLECT_R);
@@ -180,6 +222,24 @@ public class TrainingInstructionState : TrainingBaseState {
                 break;
             case 3:
                 ChangeAnimationState(DEFLECT_M);
+                break;
+            default:
+                ChangeAnimationState(IDLE);
+                break;
+        }
+        wasAnimationPlayed = true;
+    }
+
+    private void playAttackAnimation() {
+        switch (currentAnimation) {
+            case 1:
+                ChangeAnimationState(ATTACK_R);
+                break;
+            case 2:
+                ChangeAnimationState(ATTACK_L);
+                break;
+            case 3:
+                ChangeAnimationState(ATTACK_M);
                 break;
             default:
                 ChangeAnimationState(IDLE);

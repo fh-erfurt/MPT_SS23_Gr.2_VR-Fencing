@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d5ea7b58fb30654cafcba39f112ef7f, type: 3}
+  m_Name: DeflectInstructionAudios
+  m_EditorClassIdentifier: 
+  audioClips:
+  - {fileID: 8300000, guid: 230d28b5d034c2e45840ce43906ece07, type: 3}
+  - {fileID: 8300000, guid: 75385e64a54d8d346b9b601d68605fec, type: 3}
+  - {fileID: 8300000, guid: b521df258f461f3489c44e7f2ebb82b1, type: 3}
+  - {fileID: 8300000, guid: 946cc8ccaaaefe54c9254e1e4af37bd6, type: 3}
+  - {fileID: 8300000, guid: 6b450059eb646b74a992a966c07eca82, type: 3}
+  attackClips: []
+  failureClips: []
+  complimentClips: []

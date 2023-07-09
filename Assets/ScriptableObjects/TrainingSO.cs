@@ -14,13 +14,13 @@ public class TrainingSO : ScriptableObject {
         get {
             switch (trainingType) {
                 case MainManager.trainingType.training_1:
-                    return "Training 1";
+                    return "Deflecting Training";
                 case MainManager.trainingType.training_2:
-                    return "Training 2";
+                    return "Attacking Training";
                 case MainManager.trainingType.training_3:
-                    return "Training 3";
+                    return "Training 3 (empty)";
                 default:
-                    return "Training 1";
+                    return "Deflecting Training";
             }
         }
     }

@@ -12,13 +12,17 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
     public TrainingInstructionState InstructionState = new TrainingInstructionState();
     public TrainingDeflectState     DeflectState     = new TrainingDeflectState();
     public TrainingEndState         EndState         = new TrainingEndState();
+    public TrainingAttackState      AttackState      = new TrainingAttackState();
 
 
     [Header("Trainer Audios")]
-    public TrainerAudioSO introAudiosSO;
-    public TrainerAudioSO instructionAudiosSO;
-    public TrainerAudioSO deflectingAudiosSO;
+    public TrainerAudioSO deflectIntroAudiosSO;
+    public TrainerAudioSO deflectInstructionAudiosSO;
+    public TrainerAudioSO deflectTrainingAudiosSO;
     public TrainerAudioSO endAudiosSO;
+    public TrainerAudioSO attackIntroAudiosSO;
+    public TrainerAudioSO attackInstructionAudiosSO;
+    public TrainerAudioSO attackTrainingAudiosSO;
 
     [Header("Trainer")]
     public Transform trainer;
@@ -43,11 +47,18 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
     public GameObject totalScoreCanvas;
     public TMP_Text totalScoreText;
 
-    [Header("Manager")]
+    [Header("Blocking Manager")]
     public posManager posManagerRightBlock;
     public posManager posManagerLeftBlock;
     public posManager posManagerMiddleBlock;
 
+    [Header("Attacking Manager")]
+    public posManager posManagerRightAttack;
+    public posManager posManagerLeftAttack;
+    public posManager posManagerMiddleAttack;
+
+    // Manager
+    private MainManager mainManager;
     private AudioManager audioManager;
 
 
@@ -82,6 +93,10 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
 
     private void Start() {
 
+        if (mainManager == null) {
+            mainManager = MainManager.instance;
+        }
+
         if (points == null) {
             points = Points.instance;
         }
@@ -105,9 +120,7 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
         // add itself to the subjects list of observers
         subscribeToSubjects();
 
-        posManagerRightBlock.hideBlockPositions();
-        posManagerLeftBlock.hideBlockPositions();
-        posManagerMiddleBlock.hideBlockPositions();
+        hideSwordPositions();
 
         setTrainerSwordColorBlack();
 
@@ -142,10 +155,19 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
     }
 
     private void setStateAudios() {
-        StartState.SetAudios      (audioManager, introAudiosSO);
-        InstructionState.SetAudios(audioManager, instructionAudiosSO);
-        DeflectState.SetAudios    (audioManager, deflectingAudiosSO);
-        EndState.SetAudios        (audioManager, endAudiosSO);
+        switch (mainManager.selectedTraining) {
+            case MainManager.trainingType.training_1:
+                StartState.SetAudios      (audioManager, deflectIntroAudiosSO);
+                InstructionState.SetAudios(audioManager, deflectInstructionAudiosSO);
+                DeflectState.SetAudios    (audioManager, deflectTrainingAudiosSO);
+                break;
+            case MainManager.trainingType.training_2:
+                StartState.SetAudios      (audioManager, attackIntroAudiosSO);
+                InstructionState.SetAudios(audioManager, attackInstructionAudiosSO);
+                AttackState.SetAudios     (audioManager, attackTrainingAudiosSO);
+                break;
+        }
+        EndState.SetAudios (audioManager, endAudiosSO);
     }
 
 
@@ -168,9 +190,30 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
 
 
     //
+    // Sword positions
+    private void hideSwordPositions() {
+        // deflect blocks
+        posManagerRightBlock.hideBlockPositions();
+        posManagerLeftBlock.hideBlockPositions();
+        posManagerMiddleBlock.hideBlockPositions();
+        // attack blocks
+        posManagerRightAttack.hideBlockPositions();
+        posManagerLeftAttack.hideBlockPositions();
+        posManagerMiddleAttack.hideBlockPositions();
+    }
+
+
+    //
     // Called from UI-Elements etc.
     public void skipInstructions() {
-        SwitchState(DeflectState);
+        switch (mainManager.selectedTraining) {
+            case MainManager.trainingType.training_1:
+                SwitchState(DeflectState);
+                break;
+            case MainManager.trainingType.training_2:
+                SwitchState(AttackState);
+                break;
+        }
     }
 
     public void continueToNextState() {
@@ -187,6 +230,10 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
 
     public TrainingDeflectState getDeflectState() {
         return DeflectState;
+    }
+
+    public TrainingAttackState getAttackState() {
+        return AttackState;
     }
 
     public void setTotalScoreCanvasActive() {
@@ -254,6 +301,19 @@ public class TrainingStateManager : MonoBehaviour, IObserver {
 
     public posManager getMiddleBlockPositionManager() {
         return posManagerMiddleBlock;
+    }
+
+
+    public posManager getRightAttackPositionManager() {
+        return posManagerRightAttack;
+    }
+
+    public posManager getLeftAttackPositionManager() {
+        return posManagerLeftAttack;
+    }
+
+    public posManager getMiddleAttackPositionManager() {
+        return posManagerMiddleAttack;
     }
 
 

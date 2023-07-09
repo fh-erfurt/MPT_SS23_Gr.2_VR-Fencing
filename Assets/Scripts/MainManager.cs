@@ -27,8 +27,4 @@ public class MainManager : MonoBehaviour {
         // keep MainManager alive through scene-loading
         DontDestroyOnLoad(gameObject);
     }
-
-    private void Start() {
-        
-    }
 }

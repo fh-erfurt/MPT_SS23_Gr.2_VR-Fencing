@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d5ea7b58fb30654cafcba39f112ef7f, type: 3}
-  m_Name: InstructionAudios
+  m_Name: AttackInstructionAudios
   m_EditorClassIdentifier: 
   audioClips:
-  - {fileID: 8300000, guid: 230d28b5d034c2e45840ce43906ece07, type: 3}
-  - {fileID: 8300000, guid: 75385e64a54d8d346b9b601d68605fec, type: 3}
-  - {fileID: 8300000, guid: b521df258f461f3489c44e7f2ebb82b1, type: 3}
-  - {fileID: 8300000, guid: 946cc8ccaaaefe54c9254e1e4af37bd6, type: 3}
-  - {fileID: 8300000, guid: 6b450059eb646b74a992a966c07eca82, type: 3}
+  - {fileID: 8300000, guid: 5af67fbba6bf14c449beba13336a7ec6, type: 3}
+  - {fileID: 8300000, guid: ee04173e593d40545a10ec4e5c043d11, type: 3}
+  - {fileID: 8300000, guid: 6eb3e9fb6edab0e4092b18e27b28be31, type: 3}
+  - {fileID: 8300000, guid: 89dd415b8e00742409681c86a58703e5, type: 3}
+  - {fileID: 8300000, guid: ef6f8a01c156e484594de3f687405cdb, type: 3}
   attackClips: []
   failureClips: []
   complimentClips: []
