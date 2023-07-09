@@ -119,9 +119,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultColor: {r: 1, g: 1, b: 1, a: 0.1}
-  defaultEmissionColor: {r: 0.4433962, g: 0.4433962, b: 0.4433962, a: 1}
+  defaultEmissionColor: {r: 0.23529412, g: 0.23529412, b: 0.23529412, a: 1}
   selectionColor: {r: 0.03529412, g: 0.42352942, b: 0.03529412, a: 0.101960786}
-  selectionEmissionColor: {r: 0, g: 0.21568628, b: 0, a: 1}
+  selectionEmissionColor: {r: 0, g: 0.15686275, b: 0, a: 1}
 --- !u!1 &7604479283213908774
 GameObject:
   m_ObjectHideFlags: 0
@@ -241,9 +241,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultColor: {r: 1, g: 1, b: 1, a: 0.1}
-  defaultEmissionColor: {r: 0.4433962, g: 0.4433962, b: 0.4433962, a: 1}
+  defaultEmissionColor: {r: 0.23529412, g: 0.23529412, b: 0.23529412, a: 1}
   selectionColor: {r: 0.03529412, g: 0.42352942, b: 0.03529412, a: 0.101960786}
-  selectionEmissionColor: {r: 0, g: 0.21568628, b: 0, a: 1}
+  selectionEmissionColor: {r: 0, g: 0.15686275, b: 0, a: 1}
 --- !u!1 &7799760376920204020
 GameObject:
   m_ObjectHideFlags: 0
@@ -397,7 +397,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultColor: {r: 1, g: 1, b: 1, a: 0.019607844}
-  defaultEmissionColor: {r: 0.20784314, g: 0.20784314, b: 0.20784314, a: 1}
+  defaultEmissionColor: {r: 0.13725491, g: 0.13725491, b: 0.13725491, a: 1}
   selectionColor: {r: 0.03529412, g: 0.42352942, b: 0.03529412, a: 0.101960786}
   selectionEmissionColor: {r: 0, g: 0.078431375, b: 0, a: 1}
 --- !u!1 &8667660573935658222
